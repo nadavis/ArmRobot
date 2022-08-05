@@ -4,8 +4,8 @@ import imutils
 import cv2 as cv
 
 class ImageProcessing():
-    def __init__(self, scale_percent=20):
-        self.scale_percent = scale_percent
+    # def __init__(self):
+    #     self.scale_percent = scale_percent
 
     def set_center(self, gray_img):
         row_sum = np.matrix(np.sum(gray_img, 1))
@@ -36,7 +36,7 @@ class ImageProcessing():
 
         return np.uint8(diff)
 
-    def get_bojects(self, diff):
+    def get_rect_objects(self, diff):
         thresh = cv.threshold(diff, 0, 255,
                                cv.THRESH_BINARY | cv.THRESH_OTSU)[1]
         cnts = cv.findContours(thresh.copy(), cv.RETR_EXTERNAL,
@@ -65,11 +65,11 @@ class ImageProcessing():
         self.red_only = np.uint8(red)
         return self.red_only
 
-    def get_resize(self, shape):
-        width = int(shape[1] * self.scale_percent / 100)
-        height = int(shape[0] * self.scale_percent / 100)
-        dim = (width, height)
-        return dim
+    # def get_resize(self, shape):
+    #     width = int(shape[1] * self.scale_percent / 100)
+    #     height = int(shape[0] * self.scale_percent / 100)
+    #     dim = (width, height)
+    #     return dim
 
     def max_norm_hist(self, hist):
         return 255*hist/max(hist)

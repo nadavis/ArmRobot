@@ -14,24 +14,22 @@ class ArduinoMsg:
         self.no_msg = 'No msg'
         self.arduinoReply = self.no_msg
         self.sleep_msg = sleep_msg
+        self.is_connection = True
         try:
             self.serialPort = serial.Serial(port=serialPortName, baudrate=baudRate, timeout=0, rtscts=True)
-            logging.info("Serial port " + serialPortName + " opened  Baudrate " + str(baudRate))
+            logging.info("ArduinoMsg: Serial port " + serialPortName + " opened  Baudrate " + str(baudRate))
             self.wait_for_arduino()
-            self.is_connection = True
         except:
             self.is_connection = False
-            logging.warning("Warning: Arduino serial cannt find a port")
+            logging.warning("ArduinoMsg: Arduino serial cannt init and find a port %s ", serialPortName)
 
     def wait_for_arduino(self):
-        logging.info("Waiting for Arduino to reset")
+        logging.info("ArduinoMsg: Waiting for Arduino to reset")
         msg = ""
         while msg.find("Arduino is ready") == -1:
             msg = self.recv_arduino_msg()
-
-    def send_msg_by_values(self, ind, val):
-        msg = ('run:' + str(ind) + ':' + str(round(val)))
-        self.send_to_arduino(msg)
+            if not (msg == self.no_msg):
+                logging.info("ArduinoMsg: Received from Arduino %s ", msg)
 
     def send_to_arduino(self, stringToSend):
         if self.is_connection:
@@ -39,13 +37,15 @@ class ArduinoMsg:
             stringWithMarkers += stringToSend
             stringWithMarkers += (self.endMarker)
             self.serialPort.write(stringWithMarkers.encode('utf-8'))
-            logging.info('Sent msg to arduino: ', stringToSend)
+            logging.info('ArduinoMsg: Sent msg to arduino: %s', stringToSend)
+        else:
+            logging.warning("ArduinoMsg: Arduino serial is disable, msg %s not sent", stringToSend)
 
     def check_serial_port(self):
         self.arduinoReply = self.recv_arduino_msg()
         if not (self.arduinoReply == self.no_msg):
             msg = strftime("%a, %d %b %Y %H:%M:%S", localtime())+'\n'+self.arduinoReply
-            logging.info('received msg from arduino: ', msg)
+            logging.info('ArduinoMsg: Received msg from arduino: ', msg)
         return self.arduinoReply
 
     def recv_arduino_msg(self):
@@ -67,4 +67,7 @@ class ArduinoMsg:
             else:
                 return self.no_msg
         else:
+            logging.warning("ArduinoMsg: Warning: Arduino serial is disable")
             return self.no_msg
+
+

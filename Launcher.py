@@ -24,25 +24,27 @@ class App(tk.Tk):
         self.title(self.app_name)
 
         notebook = ttk.Notebook(self)
-        self.frame_cp = tk.Frame(notebook, height=self.win_height, width=self.win_width)
-        self.frame_setup = tk.Frame(notebook, height=self.win_height, width=self.win_width)
-        self.frame_cv = tk.Frame(notebook, height=self.win_height, width=self.win_width)
+        self.frame_cp = tk.Frame(notebook, height=self.win_height, width=self.win_width, highlightbackground="black", highlightthickness=1)
+        self.frame_setup = tk.Frame(notebook, height=self.win_height, width=self.win_width, highlightbackground="black", highlightthickness=1)
+        # self.frame_cv = tk.Frame(notebook, height=self.win_height, width=self.win_width, highlightbackground="black", highlightthickness=1)
         notebook.add(self.frame_cp, text='Control panel')
         notebook.add(self.frame_setup, text='Setup')
-        notebook.add(self.frame_cv, text='CV controllers')
+        # notebook.add(self.frame_cv, text='CV controllers')
         notebook.columnconfigure(0, weight=1)
         notebook.rowconfigure(0, weight=1)
         notebook.pack(expand=1, fill="both")
 
-        robot_manager = RobotManager()
-        self.control_panel = ControlPannel(self.frame_cp, robot_manager, enable_collision=True)
-        self.cv_controller = CVController(self.frame_cv, robot_manager)
+        self.robot_manager = RobotManager()
+        self.control_panel = ControlPannel(self.frame_cp, self.robot_manager, enable_collision=True)
+        self.cv_controller = CVController(self.frame_cp, self.robot_manager)
 
         self.updater()
         self.mainloop()
 
     def updater(self):
-        self.cv_controller.get_frame()
+        self.robot_manager.robot_run()
+        self.cv_controller.set_frame_to_canvas()
+        self.control_panel.set_thetas_to_sliders()
         self.update()
         self.after(15, self.updater)
 

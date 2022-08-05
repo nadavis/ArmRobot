@@ -13,85 +13,112 @@ class KinematicsOps():
 
         # self.plot_tools = PlotTools(config_manager.kinematics_config['link_size'])
 
-        self.arm_kinematics = ArmKinematics(config_manager.kinematics_config,
-                                       config_manager.servo_config)
-
-        self.arduino_msg = ArduinoMsg(config_manager.arduino_config['msg_buff'],
-                                 config_manager.arduino_config['port'],
-                                 config_manager.arduino_config['time_msg_interval'],
-                                 config_manager.arduino_config['sleep_msg'])
-
-        self.max_angle_motor_spec = np.array(config_manager.servo_config['angel_max'])
-        self.max_motor_spec = np.array(config_manager.servo_config['pwm_max'])
-        self.gear_spec = np.array(config_manager.servo_config['gear_ratio'])
-        self.min_motor_spec = np.array(config_manager.servo_config['pwm_min'])
+        self.arm_kinematics = ArmKinematics(config_manager)
+        self.max_angle_motor_spec = np.array(config_manager.get_angle_max())
+        self.max_motor_spec = np.array(config_manager.get_pwm_max())
+        self.gear_spec = np.array(config_manager.get_servo_gear_ratio())
+        self.min_motor_spec = np.array(config_manager.get_pwm_min())
         self.pwm2angle = self.max_angle_motor_spec / (self.gear_spec * (self.max_motor_spec - self.min_motor_spec))
-        self.home_pwm = np.array(config_manager.servo_config['home'])
-        self.min_pwm = np.array(config_manager.servo_config['min'])
-        self.max_pwm = np.array(config_manager.servo_config['max'])
-        self.servo_direction = np.array(config_manager.servo_config['servo_direction'])
+        self.home_pwm = np.array(config_manager.get_servo_home())
+        self.min_pwm = np.array(config_manager.get_servo_min())
+        self.max_pwm = np.array(config_manager.get_servo_max())
+        self.servo_direction = np.array(config_manager.get_servo_direction())
+
+        # self.is_collision = False
+        self.enable_collision = config_manager.get_enable_collision_state()
+        self.gripper_pos = config_manager.get_gripper_state()
+        self.thetas = config_manager.get_thetas_zero()
+        self.prev_thetas = np.zeros(self.get_num_of_joints())
+        self.pwm = []
 
     def get_num_of_joints(self):
-        logging.info('Getting number of dof, number of dof is: %d', self.arm_kinematics.num_of_dof)
-        return self.arm_kinematics.num_of_dof
+        num_of_dof = self.arm_kinematics.get_number_of_dof()
+        logging.info('KinematicsOps: Getting number of dof, number of dof is: %d', num_of_dof)
+        return num_of_dof
 
     def get_joint_direction(self, joint_ind):
         value = self.servo_direction[joint_ind]
-        logging.info('Getting direction joint is: %d for joint number: %d', value, joint_ind)
+        logging.info('KinematicsOps: Getting direction joint is: %d for joint number: %d', value, joint_ind)
         return value
 
     def get_min_angle(self, joint_ind):
         value = self.pwm_2_angle(joint_ind, self.min_pwm)
-        logging.info('Getting min value: %.4f for joint number: %d', value, joint_ind)
+        logging.info('KinematicsOps: Getting min value: %.4f for joint number: %d', value, joint_ind)
         return value
 
     def get_max_angle(self, joint_ind):
         value = self.pwm_2_angle(joint_ind, self.max_pwm)
-        logging.info('Getting max value: %.4f for joint number: %d', value, joint_ind)
+        logging.info('KinematicsOps: Getting max value: %.4f for joint number: %d', value, joint_ind)
         return value
 
     def pwm_2_angle(self, ind, val):
         value = (val[ind]-self.home_pwm[ind])*self.pwm2angle[ind]
-        logging.info('Converting, PWM value: %d to angle value: %.4f for joint number: %d', val[ind], value, ind)
+        logging.info('KinematicsOps: Converting, PWM value: %d to angle value: %.4f for joint number: %d', val[ind], value, ind)
         return value
 
     def angle_2_pwm(self, ind, val):
         val = val[ind] * self.servo_direction[ind]
         value = self.home_pwm[ind]+val/self.pwm2angle[ind]
-        logging.info('Converting angle value: %.4f to pwm value: %d for joint number: %d', val[ind], value, ind)
+        logging.info('KinematicsOps: Converting angle value: %.4f to pwm value: %d for joint number: %d', val, value, ind)
         return value
 
     def get_rand_angle(self, joint_ind):
         min_val = round(self.get_min_angle(joint_ind))
         max_val = round(self.get_max_angle(joint_ind))
         value = random.randint(min(min_val, max_val), max(min_val, max_val))
-        logging.info('Getting random value: %d for joint number: %d', value, joint_ind)
+        logging.info('KinematicsOps: Getting random value: %d for joint number: %d', value, joint_ind)
         return value
 
-    def set_current_angle(self, joint_ind, value):
-        logging.info('Setting value: %d for slider number: %d', value, joint_ind)
-        # theta = self.kinematics.set_theta_by_motor_ind(self.grid_column_pos, self.current_value.get())
-        # theta, pos, is_collision, H, T = self.kinematics.run_forward_kinematics()
-        # self.plot_tools.show_kinematics(theta, H, T)
-        # if not is_collision:
-        #     # print("--- SEND MSG---")
-        #     # print('ind:', self.grid_column_pos)
-        #     # print('theta: ', theta)
-        #     # print('pwm: ', self.kinematics.pwm)
-        #     # print('pos: ', pos)
-        #     self.send_kinematic_angel()
-        #     if (self.grid_column_pos < len(self.kinematics.theta0)):
-        #         self.set_value(theta[self.grid_column_pos])
+    # def set_current_angle_by_ind(self, joint_ind, angle):
+    #     logging.info('KinematicsOps: Setting thetas ind: %s to %s degree', str(joint_ind), str(angle))
+    #     self.thetas[joint_ind] = angle
+
+    # def send_current_angle(self, joint_ind, angle):
+    #     logging.info('KinematicsOps: Setting slider ind: %s to %s degree', str(joint_ind), str(angle))
+    #     if(len(joint_ind)>0):
+    #         self.set_current_angle_by_ind(joint_ind, angle)
+    #     self.thetas, is_collision, H, T = self.forward_kinematics(self.thetas)
+    #     return self.thetas, is_collision, H, T
+
+    # def send_current_angle(self):
+    #     logging.info('KinematicsOps: Setting thetas to %s degree', str(self.thetas))
+    #     self.thetas, is_collision, H, T = self.forward_kinematics(self.thetas)
+    #     return self.thetas, is_collision, H, T
+
+    def forward_kinematics(self, thetas):
+        logging.info('KinematicsOps: Forware kinematics for thetas = %s', str(thetas))
+        thetas, is_collision, H, T = self.arm_kinematics.run_forward_kinematics(self.gripper_pos, thetas)
+        logging.warning('KinematicsOps: Estimated pos is %s ', str(T[:3, 3]))
+        if self.enable_collision and is_collision:
+            logging.warning('KinematicsOps: Collision setting to prev thetas %s', str(self.prev_thetas))
+            thetas, is_collision, H, T = self.arm_kinematics.run_forward_kinematics(self.gripper_pos, self.prev_thetas)
+            logging.warning('KinematicsOps: Collision after setting is collision: %d', is_collision)
+            thetas = self.prev_thetas.copy()
+        else:
+            self.prev_thetas = thetas.copy()
+        return thetas, is_collision, H, T
 
     def set_collision_state(self, flg):
-        logging.info('Setting collision state: %d', flg)
-        # return self.kinematics_ops.set_collision_state(flg)
+        logging.info('KinematicsOps: Setting collision state: %d', flg)
+        self.enable_collision = flg
 
-    def set_gripper_type(self, type):
-        logging.info('Setting gripper type: %s', type)
+    def set_gripper_pos(self, gripper_pos):
+        logging.info('KinematicsOps: Setting gripper state: %s', gripper_pos)
+        self.gripper_pos = gripper_pos
 
-    def open_gripper(self):
-        logging.info('Opening gripper')
+    def get_gripper_pos(self):
+        return self.gripper_pos
 
-    def close_gripper(self):
-        logging.info('OpeninClosingg gripper')
+    def run_inv_kinematics(self, pos):
+        logging.info('KinematicsOps: Run inv kinematics of pos %s ',str(pos))
+        if self.gripper_pos == 'None':
+            logging.warning('KinematicsOps: Gripper possition state is %s ', self.gripper_pos)
+        offset_z, offset_d, offset_a = self.arm_kinematics.get_gripper_parameters(self.gripper_pos)
+        theta1, theta2 = self.arm_kinematics.inv_kinematics(pos, offset_z, offset_d, offset_a)
+        if len(theta1)>0:
+            theta1 = np.append(theta1, 0)
+            theta1 = np.append(theta1, 0)
+            logging.warning('KinematicsOps: Estimated thetas are %s ', str(theta1))
+            return theta1
+        else:
+            return self.thetas

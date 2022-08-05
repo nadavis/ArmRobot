@@ -50,6 +50,8 @@ def rigid_transform_3D(A, B):
 
     return R, t
 
+def apply_trans(R, t, A):
+    return R@A + t
 
 if __name__ == "__main__":
 

@@ -1,35 +1,19 @@
-import yaml
+from ops.config_ops import ConfigOps
 import numpy as np
 import matplotlib.pyplot as plt
 import math
-import time
+import logging
 
 class ArmKinematics():
-    def __init__(self, kinematics_config, servo_config):
-        a = kinematics_config['link_size']
-        theta0 = kinematics_config['theta0']
-        self.theta = [0, 0, 0, 0, 0]
-        self.pwm = servo_config['home']
-        self.prev_theta = self.theta
-        self.theta0 = theta0
+    def __init__(self, config):
+        a = config.get_links_size()
+        theta0 = config.get_thetas_zero()
+        # self.avoid_collision = config.get_enable_collision_state()
+        self.gripper_state = config.get_gripper_state()
+        self.z_limit = config.get_z_limit()
+
         self.a = a
-        self.theta_limit = 90
-        self.num_of_theta = 3
         self.num_of_dof = 5
-        self.avoid_collision = kinematics_config['enable_collision']
-        self.gripper_state = kinematics_config['gripper_state']
-        self.z_limit = kinematics_config['z_limit']
-
-        # self.max_angel_motor_spec = np.array(servo_config['angel_max'])
-        # self.max_motor_spec = np.array(servo_config['pwm_max'])
-        # self.gear_spec = np.array(servo_config['gear_ratio'])
-        # self.min_motor_spec = np.array(servo_config['pwm_min'])
-        # self.pwm2angel = self.max_angel_motor_spec / (self.gear_spec*(self.max_motor_spec-self.min_motor_spec))
-        # self.home_motor = np.array(servo_config['home'])
-        # self.min_motor = np.array(servo_config['min'])
-        # self.max_motor = np.array(servo_config['max'])
-        # self.servo_direction = np.array(servo_config['servo_direction'])
-
         self.d_h_table = np.array([[np.deg2rad(theta0[0]), np.deg2rad(90), 0, a[0]],
                                    [np.deg2rad(theta0[1]+90), np.deg2rad(0), a[1], 0],
                                    [np.deg2rad(theta0[2] + 90), np.deg2rad(90), a[3], 0],
@@ -37,6 +21,8 @@ class ArmKinematics():
                                    [np.deg2rad(theta0[4] - 90), np.deg2rad(0), 0, 0],
                                    [np.deg2rad(0), np.deg2rad(0), a[6], 0]])
 
+    def get_number_of_dof(self):
+        return self.num_of_dof
 
     def rot_tran_matrix(self, theta, alpha, r, d):
         return np.array([[np.cos(theta), -np.sin(theta) * np.cos(alpha),
@@ -48,29 +34,14 @@ class ArmKinematics():
                                [0, np.sin(alpha), np.cos(alpha), d],
                                [0, 0, 0, 1]])
 
-    # def pwm_2_angel(self, ind, val):
-    #     print([val, ind])
-    #     return (val-self.home_motor[ind])*self.pwm2angel[ind]
-    #
-    # def angel_2_pwm_by(self, ind, val):
-    #     val = val * self.servo_direction[ind]
-    #     return self.home_motor[ind]+val/self.pwm2angel[ind]
-    #
-    # def angel_2_pwm(self):
-    #     val = self.theta * self.servo_direction[:len(self.theta)]
-    #     self.pwm = self.home_motor[:len(self.theta)]+val/self.pwm2angel[:len(self.theta)]
-    #     # print(self.pwm)
+    # def run_inv_kinematics(self, pos):
+    #     offset_z, offset_d, offset_a = self.get_gripper_parameters()
 
-    def set_avoid_collision(self, flg):
-        self.avoid_collision = flg
+    def inv_kinematics(self, pos, offset_z=0, offset_d=0, offset_a=0):
+        if (offset_z==0 and offset_d==0 and offset_a==0):
+            logging.warning('ArmKinematics: Gripper possition did not set, No movement done')
+            return [], []
 
-    def set_gripper_state(self, flg):
-        self.gripper_state = flg
-        if self.gripper_state=='None':
-            self.theta[3] = 0
-            self.theta[4] = 0
-
-    def inv_kinematics(self, pos, offest_z=0, offeset_d=0, offset_a=0):
         a0 = self.a[0]
         a1 = self.a[1]
         a2 = self.a[2] + self.a[5] + offset_a
@@ -81,15 +52,15 @@ class ArmKinematics():
         elif (pos[0] < 0 and pos[1] < 0):
             t0 = math.pi+t0
 
-        pos[0] = pos[0] + offeset_d * np.cos(t0)
-        pos[1] = pos[1] + offeset_d * np.sin(t0)
+        pos[0] = pos[0] + offset_d * np.cos(t0)
+        pos[1] = pos[1] + offset_d * np.sin(t0)
         y = np.sqrt(pos[0] * pos[0] + pos[1] * pos[1])
         # y = y - offeset_d
         # if(y>offeset_d):
         #     y = y - offeset_d
         # else:
         #     y = y + offeset_d
-        x = pos[2] - a0 + offest_z
+        x = pos[2] - a0 + offset_z
 
         sign_x = x
         # sign_y = y
@@ -100,7 +71,8 @@ class ArmKinematics():
             if (k0 < 1.00001):
                 k0 = 1
             else:
-                print('NO RESULTS')
+                logging.warning('ArmKinematics: Kinematics is out of range')
+                # print('NO RESULTS')
                 return [], []
 
         t2 = np.arccos(k0)
@@ -159,115 +131,70 @@ class ArmKinematics():
         H = []
         T = np.eye(4)
         is_collision = False
-        if(len(theta)==0):
-            theta = self.theta
+
         if num_of_frames==0:
             num_of_frames = len(self.d_h_table)
 
         for i in range(len(theta), num_of_frames):
             theta = np.append(theta, 0)
 
+        logging.info('ArmKinematics: Calc forward kinematics of thetas %s ', str(theta))
         for i in range(0, num_of_frames):
             res = self.rot_tran_matrix(self.d_h_table[i, 0]+np.deg2rad(theta[i]), self.d_h_table[i, 1], self.d_h_table[i, 2], self.d_h_table[i, 3])
             T = T @ res
             H.append(res)
             if(i>0):
                 is_collision = is_collision or self.check_collision(T)
-                if is_collision and self.avoid_collision:
-                    print('colission: ', T[:3, 3], ' flg: ', T[2,3]<= self.z_limit)
+                if is_collision:
+                    logging.warning('ArmKinematics: Collision at theta ind %d, z value is %d [cm], z limit was set to %d [cm]', i, T[2,3], self.z_limit)
+                    # print('Collision: ', T[:3, 3], ' flg: ', T[2,3]<= self.z_limit)
 
         return np.round(H, 5), np.round(T, 5), is_collision
 
-    def pos_gripper_horizontal(self, theta=[]):
-        if (len(theta) > 0):
-            self.theta = theta
+    def pos_gripper(self, angle, thetas):
+        thetas[3] = 0
+        thetas[4] = angle - thetas[1] - thetas[2]
+        return thetas
 
-        if (len(self.theta) == len(self.theta0)):
-            self.theta[3] = 0
-            self.theta[4] = (90 - self.theta[1] - self.theta[2])
-        else:
-            self.theta = np.append(self.theta, 0)
-            self.theta = np.append(self.theta, 90 - self.theta[1] - self.theta[2])
+    def get_gripper_parameters(self, state):
+        offset_a = 0
+        offset_z = 0
+        offset_d = 0
+        if(state == 'Vertical'):
+            offset_z = self.a[6]
+        elif(state == 'Horizontal'):
+            offset_d = self.a[6]
+        elif(state=='Home'):
+            offset_a = self.a[6]
 
-        return self.theta
+        logging.info('ArmKinematics: Setting offset_z, offset_d, offset_a: %s ', str([offset_z, offset_d, offset_a]))
+        return offset_z, offset_d, offset_a
 
-    def pos_gripper_down(self, theta=[]):
-        if(len(theta)>0):
-            self.theta = theta
-        if(len(self.theta) == len(self.theta0)):
-            self.theta[3] = 0
-            self.theta[4] = 180 - self.theta[1] - self.theta[2]
-        else:
-            self.theta = np.append(self.theta, 0)
-            self.theta = np.append(self.theta, 180 - self.theta[1] - self.theta[2])
+    def get_gripper_pos(self, state, thetas):
+        logging.info('ArmKinematics: Getting gripper pos %s ', state)
+        if(state == 'Vertical'):
+            thetas = self.pos_gripper(180, thetas)
+        elif(state == 'Horizontal'):
+            thetas = self.pos_gripper(90, thetas)
+        elif(state=='Home'):
+            thetas[3] = 0
+            thetas[4] = 0
 
-        return self.theta
+        return thetas
 
-    def pos_gripper_none(self, theta=[]):
-        if(len(theta)>0):
-            self.theta = theta
-        if(len(self.theta) == len(self.theta0)):
-            self.theta[3] = 0
-            self.theta[4] = 0
-        else:
-            self.theta = np.append(self.theta, 0)
-            self.theta = np.append(self.theta, 0)
+    def run_forward_kinematics(self, state, thetas=[]):
+        if(len(thetas)<self.num_of_dof):
+            logging.error('ArmKinematics: Number of Thetas less than %d ', self.num_of_dof)
 
-        return self.theta
+        thetas = self.get_gripper_pos(state, thetas)
+        H, T, is_collision = self.run_forward(thetas)
 
-    def set_theta_by_motor_ind(self, motor_ind, theta):
-        if(motor_ind<len(self.theta)):
-            self.theta[motor_ind] = theta
-        return self.theta
-
-    def run_forward_kinematics(self, theta=[]):
-        # print("--- KINEMATIC START---")
-        # print('theta:', self.theta)
-        # print('prev theta:', self.prev_theta)
-
-        if(len(theta)>0):
-            for i in range(len(theta), len(self.theta)):
-                theta = np.append(theta, 0)
-            self.theta = theta
-
-        if(self.gripper_state == 'Vertical'):
-            self.theta = self.pos_gripper_down(self.theta)
-        elif(self.gripper_state == 'Horizontal'):
-            self.theta = self.pos_gripper_horizontal(self.theta)
-        elif(self.gripper_state == 'None'):
-            self.theta[3] = 0
-            self.theta[4] = 0
-
-
-        H, T, is_collision = self.run_forward(self.theta)
-        is_collision = is_collision and self.avoid_collision
-        if is_collision:
-            print("--- KINEMATIC COLLISION---")
-            print('theta:', self.theta)
-            print('prev theta:', self.prev_theta)
-            H, T, is_collision = self.run_forward(self.prev_theta)
-            self.theta = self.prev_theta.copy()
-        else:
-            self.prev_theta = self.theta.copy()
-        # print('update theta:', self.theta)
-        pos = T[:3, 3]
-        self.angel_2_pwm()
-        return self.theta, pos, is_collision, np.round(H, 5), np.round(T, 5)
+        return thetas, is_collision, np.round(H, 5), np.round(T, 5)
 
     def check_collision(self, T):
         if(T[2,3]<= self.z_limit):
             return True
         return False
-
-    def go_home(self):
-        theta = self.theta0
-        H, T, is_collision = self.run_forward(theta)
-
-    # def check_collision_by_theta(self, theta=[]):
-    #     if(len(theta)==0):
-    #         theta = self.theta
-    #     H, T, is_collision = self.run_forward(theta)
-    #     return is_collision
 
     def show_kinematics(self, H, T, fig=0, ax=0, c='g', linewidth=2, x0=0, y0=0, z0=0):
         ma = sum(self.a)
@@ -315,65 +242,56 @@ if __name__ == "__main__":
     for p in range(0,360, 1):
         pp.append(np.rad2deg(np.arctan(p)))
 
-    with open("config.yml", 'r') as conf_file:
-        config = yaml.load(conf_file, Loader=yaml.FullLoader)
+    config = ConfigOps("../config/config.yml")
+
     show = True
     k = ArmKinematics(config)
-    k.avoid_collision = False
-    k.gripper_state = False
+
     err1 = []
     err2 = []
     err_min=[]
     errp1 = []
     errp2 = []
     errp_min = []
-    b_vertical = 2
+    state = 'Horizontal'
+    state = 'Vertical'
+    # state = 'Home'
+
+    offset_a = 0
+    if (state == 'Vertical'):
+        offset_z = k.a[6]
+        offset_d = 0
+    elif (state == 'Horizontal'):
+        offset_d = k.a[6]
+        offset_z = 0
+    elif(state == 'Home'):
+        offset_a = k.a[6]
+        offset_z = 0
+        offset_d = 0
+
     for t in range(0, 1000, 1):
-        theta0 = np.random.randint(-90, 90, size=len(k.theta0))
-        # theta0[0]=0
-        H0, T0, is_collision = k.run_forward(theta0)
-        pos0_ = T0[:3, 3]
-        if(b_vertical==0):
-            theta0 = k.pos_gripper_down(theta0)
-        elif(b_vertical==1):
-            theta0 = k.pos_gripper_horizontal(theta0)
-        elif (b_vertical == 2):
-            theta0 = k.pos_gripper_none(theta0)
+        thetas = np.random.randint(-90, 90, size=k.num_of_dof)
+        # thetas= [67,  34,  76, - 83,  24]
+        thetas, is_collision, H, T = k.run_forward_kinematics(state, thetas)
+        pos = T[:3, 3]
 
-        H0, T0, is_collision = k.run_forward(theta0)
-        pos0 = T0[:3, 3]
-        offset_a = 0
-        if (b_vertical==0):
-            offset_z = k.a[6]
-            offset_d = 0
-        elif (b_vertical==1):
-            offset_d = k.a[6]
-            offset_z = 0
-        elif (b_vertical==2):
-            offset_a = k.a[6]
-            offset_z = 0
-            offset_d = 0
+        H0 = H
+        T0 = T
+        theta0 = thetas
+        pos0 = pos
+        pos0_ = pos
 
-        theta1, theta2 = k.inv_kinematics(pos0.copy(), offset_z, offset_d, offset_a)
-        # if(len(theta1)==0 or len(theta2)==0):
-        #     print('No results')
-        #     continue
-        if (b_vertical==0):
-            theta1 = k.pos_gripper_down(theta1)
-            theta2 = k.pos_gripper_down(theta2)
-        elif (b_vertical == 1):
-            theta1 = k.pos_gripper_horizontal(theta1)
-            theta2 = k.pos_gripper_horizontal(theta2)
-        elif (b_vertical == 2):
-            theta1 = k.pos_gripper_none(theta1)
-            theta2 = k.pos_gripper_none(theta2)
 
-        H1, T1, is_collision = k.run_forward(theta1)
+        theta1, theta2 = k.inv_kinematics(pos.copy(), offset_z, offset_d, offset_a)
+        theta1 = np.append(theta1,0)
+        theta1 = np.append(theta1, 0)
+        theta2 = np.append(theta2, 0)
+        theta2 = np.append(theta2, 0)
+        theta1, is_collision1, H1, T1 = k.run_forward_kinematics(state, theta1)
         pos1 = T1[:3, 3]
-        H2, T2, is_collision = k.run_forward(theta2)
-        pos2 = T2[:3, 3]
 
-        # pos0[2] = pos0[2] - k.a[6]
+        theta2, is_collision2, H2, T2 = k.run_forward_kinematics(state, theta2)
+        pos2 = T2[:3, 3]
 
         d1 = np.subtract(theta0, theta1)
         e1 = np.sqrt(np.mean(d1 * d1))

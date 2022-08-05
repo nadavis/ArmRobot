@@ -1,69 +1,47 @@
-07/30/2022 06:29:32 PM StartedArm controller
-07/30/2022 06:29:32 PM Warning: Arduino serial cannt find a port
-07/30/2022 06:29:33 PM Getting number of dof, number of dof is: 5
-07/30/2022 06:29:33 PM Converting, PWM value: 600 to angle value: -139.5556 for joint number: 0
-07/30/2022 06:29:33 PM Getting min value: -139.5556 for joint number: 0
-07/30/2022 06:29:33 PM Converting, PWM value: 2400 to angle value: 174.4444 for joint number: 0
-07/30/2022 06:29:33 PM Getting max value: 174.4444 for joint number: 0
-07/30/2022 06:29:33 PM Getting direction joint is: -1 for joint number: 0
-07/30/2022 06:29:33 PM Converting, PWM value: 1500 to angle value: -128.1793 for joint number: 1
-07/30/2022 06:29:33 PM Getting min value: -128.1793 for joint number: 1
-07/30/2022 06:29:33 PM Converting, PWM value: 2400 to angle value: 98.9100 for joint number: 1
-07/30/2022 06:29:33 PM Getting max value: 98.9100 for joint number: 1
-07/30/2022 06:29:33 PM Getting direction joint is: -1 for joint number: 1
-07/30/2022 06:29:33 PM Converting, PWM value: 1150 to angle value: -133.1753 for joint number: 2
-07/30/2022 06:29:33 PM Getting min value: -133.1753 for joint number: 2
-07/30/2022 06:29:33 PM Converting, PWM value: 1950 to angle value: 149.4248 for joint number: 2
-07/30/2022 06:29:33 PM Getting max value: 149.4248 for joint number: 2
-07/30/2022 06:29:33 PM Getting direction joint is: 1 for joint number: 2
-07/30/2022 06:29:33 PM Converting, PWM value: 500 to angle value: -167.0192 for joint number: 3
-07/30/2022 06:29:33 PM Getting min value: -167.0192 for joint number: 3
-07/30/2022 06:29:33 PM Converting, PWM value: 2500 to angle value: 179.1346 for joint number: 3
-07/30/2022 06:29:33 PM Getting max value: 179.1346 for joint number: 3
-07/30/2022 06:29:33 PM Getting direction joint is: 1 for joint number: 3
-07/30/2022 06:29:33 PM Converting, PWM value: 500 to angle value: -117.9000 for joint number: 4
-07/30/2022 06:29:33 PM Getting min value: -117.9000 for joint number: 4
-07/30/2022 06:29:33 PM Converting, PWM value: 2500 to angle value: 32.1000 for joint number: 4
-07/30/2022 06:29:33 PM Getting max value: 32.1000 for joint number: 4
-07/30/2022 06:29:33 PM Getting direction joint is: -1 for joint number: 4
-07/30/2022 06:29:37 PM Slider number 1 is changing
-07/30/2022 06:29:37 PM Setting value: 4 for slider number: 1
-07/30/2022 06:29:37 PM Slider number 1 is changing
-07/30/2022 06:29:37 PM Setting value: 5 for slider number: 1
-07/30/2022 06:29:37 PM Slider number 1 is changing
-07/30/2022 06:29:37 PM Setting value: 8 for slider number: 1
-07/30/2022 06:29:37 PM Slider number 1 is changing
-07/30/2022 06:29:37 PM Setting value: 9 for slider number: 1
-07/30/2022 06:29:37 PM Slider number 1 is changing
-07/30/2022 06:29:37 PM Setting value: 10 for slider number: 1
-07/30/2022 06:29:37 PM Slider number 1 is changing
-07/30/2022 06:29:37 PM Setting value: 13 for slider number: 1
-07/30/2022 06:29:37 PM Slider number 1 is changing
-07/30/2022 06:29:37 PM Setting value: 15 for slider number: 1
-07/30/2022 06:29:37 PM Slider number 1 is changing
-07/30/2022 06:29:37 PM Setting value: 16 for slider number: 1
-07/30/2022 06:29:37 PM Slider number 1 is changing
-07/30/2022 06:29:37 PM Setting value: 17 for slider number: 1
-07/30/2022 06:29:37 PM Slider number 1 is changing
-07/30/2022 06:29:37 PM Setting value: 20 for slider number: 1
-07/30/2022 06:29:37 PM Slider number 1 is changing
-07/30/2022 06:29:37 PM Setting value: 21 for slider number: 1
-07/30/2022 06:29:37 PM Slider number 1 is changing
-07/30/2022 06:29:37 PM Setting value: 23 for slider number: 1
-07/30/2022 06:29:37 PM Slider number 1 is changing
-07/30/2022 06:29:37 PM Setting value: 24 for slider number: 1
-07/30/2022 06:29:37 PM Slider number 1 is changing
-07/30/2022 06:29:37 PM Setting value: 25 for slider number: 1
-07/30/2022 06:29:37 PM Slider number 1 is changing
-07/30/2022 06:29:37 PM Setting value: 27 for slider number: 1
-07/30/2022 06:29:38 PM Slider number 1 is changing
-07/30/2022 06:29:38 PM Setting value: 29 for slider number: 1
-07/30/2022 06:29:38 PM Slider number 1 is changing
-07/30/2022 06:29:38 PM Setting value: 31 for slider number: 1
-07/30/2022 06:29:38 PM Slider number 1 is changing
-07/30/2022 06:29:38 PM Setting value: 33 for slider number: 1
-07/30/2022 06:29:38 PM Slider number 1 is changing
-07/30/2022 06:29:38 PM Setting value: 35 for slider number: 1
-07/30/2022 06:29:38 PM Slider number 1 is changing
-07/30/2022 06:29:38 PM Setting value: 31 for slider number: 1
-07/30/2022 06:29:44 PM Finished
+08/05/2022 09:35:33 PM StartedArm controller
+08/05/2022 09:35:33 PM KinematicsOps: Getting number of dof, number of dof is: 5
+08/05/2022 09:35:33 PM VideoStream: Video is opening
+08/05/2022 09:35:33 PM VideoStream: Camera index 1 is not available moving to port zero
+08/05/2022 09:35:34 PM VideoStream: Video resolution is [1280.0, 720.0]
+08/05/2022 09:35:34 PM VideoStream: Resize video resolution is (320, 180)
+08/05/2022 09:35:34 PM ArduinoMsg: Arduino serial cannt init and find a port /dev/cu.usbmodem1433301 
+08/05/2022 09:35:34 PM KinematicsOps: Getting number of dof, number of dof is: 5
+08/05/2022 09:35:34 PM KinematicsOps: Getting number of dof, number of dof is: 5
+08/05/2022 09:35:34 PM KinematicsOps: Forware kinematics for thetas = [0. 0. 0. 0. 0.]
+08/05/2022 09:35:34 PM ArmKinematics: Getting gripper pos None 
+08/05/2022 09:35:34 PM ArmKinematics: Calc forward kinematics of thetas [0. 0. 0. 0. 0. 0.] 
+08/05/2022 09:35:34 PM KinematicsOps: Estimated pos is [ 0.   0.  68.8] 
+08/05/2022 09:35:34 PM KinematicsOps: Getting number of dof, number of dof is: 5
+08/05/2022 09:35:34 PM KinematicsOps: Converting, PWM value: 600 to angle value: -139.5556 for joint number: 0
+08/05/2022 09:35:34 PM KinematicsOps: Getting min value: -139.5556 for joint number: 0
+08/05/2022 09:35:34 PM KinematicsOps: Converting, PWM value: 2400 to angle value: 174.4444 for joint number: 0
+08/05/2022 09:35:34 PM KinematicsOps: Getting max value: 174.4444 for joint number: 0
+08/05/2022 09:35:34 PM KinematicsOps: Getting direction joint is: -1 for joint number: 0
+08/05/2022 09:35:34 PM KinematicsOps: Converting, PWM value: 1500 to angle value: -128.1793 for joint number: 1
+08/05/2022 09:35:34 PM KinematicsOps: Getting min value: -128.1793 for joint number: 1
+08/05/2022 09:35:34 PM KinematicsOps: Converting, PWM value: 2400 to angle value: 98.9100 for joint number: 1
+08/05/2022 09:35:34 PM KinematicsOps: Getting max value: 98.9100 for joint number: 1
+08/05/2022 09:35:34 PM KinematicsOps: Getting direction joint is: -1 for joint number: 1
+08/05/2022 09:35:34 PM KinematicsOps: Converting, PWM value: 1150 to angle value: -133.1753 for joint number: 2
+08/05/2022 09:35:34 PM KinematicsOps: Getting min value: -133.1753 for joint number: 2
+08/05/2022 09:35:34 PM KinematicsOps: Converting, PWM value: 1950 to angle value: 149.4248 for joint number: 2
+08/05/2022 09:35:34 PM KinematicsOps: Getting max value: 149.4248 for joint number: 2
+08/05/2022 09:35:34 PM KinematicsOps: Getting direction joint is: 1 for joint number: 2
+08/05/2022 09:35:34 PM KinematicsOps: Converting, PWM value: 500 to angle value: -167.0192 for joint number: 3
+08/05/2022 09:35:34 PM KinematicsOps: Getting min value: -167.0192 for joint number: 3
+08/05/2022 09:35:34 PM KinematicsOps: Converting, PWM value: 2500 to angle value: 179.1346 for joint number: 3
+08/05/2022 09:35:34 PM KinematicsOps: Getting max value: 179.1346 for joint number: 3
+08/05/2022 09:35:34 PM KinematicsOps: Getting direction joint is: 1 for joint number: 3
+08/05/2022 09:35:34 PM KinematicsOps: Converting, PWM value: 500 to angle value: -117.9000 for joint number: 4
+08/05/2022 09:35:34 PM KinematicsOps: Getting min value: -117.9000 for joint number: 4
+08/05/2022 09:35:34 PM KinematicsOps: Converting, PWM value: 2500 to angle value: 32.1000 for joint number: 4
+08/05/2022 09:35:34 PM KinematicsOps: Getting max value: 32.1000 for joint number: 4
+08/05/2022 09:35:34 PM KinematicsOps: Getting direction joint is: -1 for joint number: 4
+08/05/2022 09:35:34 PM KinematicsOps: Forware kinematics for thetas = [0, 0, 0, 0, 0]
+08/05/2022 09:35:34 PM ArmKinematics: Getting gripper pos None 
+08/05/2022 09:35:34 PM ArmKinematics: Calc forward kinematics of thetas [0 0 0 0 0 0] 
+08/05/2022 09:35:34 PM KinematicsOps: Estimated pos is [ 0.   0.  68.8] 
+08/05/2022 09:35:34 PM PlotTools: Show thetas T = [[ 0.  -1.   0.   0. ]
+ [ 0.   0.  -1.   0. ]
+ [ 1.   0.   0.  68.8]
+ [ 0.   0.   0.   1. ]]
