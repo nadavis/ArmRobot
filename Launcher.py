@@ -44,7 +44,9 @@ class App(tk.Tk):
     def updater(self):
         self.robot_manager.robot_run()
         self.cv_controller.set_frame_to_canvas()
+        self.cv_controller.set_depth_frame_to_canvas()
         self.control_panel.set_thetas_to_sliders()
+        self.robot_manager.get_arduino_msg()
         self.update()
         self.after(15, self.updater)
 

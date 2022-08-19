@@ -37,15 +37,15 @@ class ArduinoMsg:
             stringWithMarkers += stringToSend
             stringWithMarkers += (self.endMarker)
             self.serialPort.write(stringWithMarkers.encode('utf-8'))
-            logging.info('ArduinoMsg: Sent msg to arduino: %s', stringToSend)
+            logging.info('ArduinoMsg: Sent msg %s to arduino', stringToSend)
         else:
             logging.warning("ArduinoMsg: Arduino serial is disable, msg %s not sent", stringToSend)
 
     def check_serial_port(self):
         self.arduinoReply = self.recv_arduino_msg()
         if not (self.arduinoReply == self.no_msg):
-            msg = strftime("%a, %d %b %Y %H:%M:%S", localtime())+'\n'+self.arduinoReply
-            logging.info('ArduinoMsg: Received msg from arduino: ', msg)
+            msg = self.arduinoReply
+            logging.info('ArduinoMsg: Received msg from arduino: %s', str(msg))
         return self.arduinoReply
 
     def recv_arduino_msg(self):
@@ -67,7 +67,7 @@ class ArduinoMsg:
             else:
                 return self.no_msg
         else:
-            logging.warning("ArduinoMsg: Warning: Arduino serial is disable")
+            # logging.warning("ArduinoMsg: Warning: Arduino serial is disable")
             return self.no_msg
 
 

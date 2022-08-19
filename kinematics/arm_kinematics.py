@@ -8,6 +8,7 @@ class ArmKinematics():
     def __init__(self, config):
         a = config.get_links_size()
         theta0 = config.get_thetas_zero()
+        self.theta0 = theta0
         # self.avoid_collision = config.get_enable_collision_state()
         self.gripper_state = config.get_gripper_state()
         self.z_limit = config.get_z_limit()
@@ -23,6 +24,9 @@ class ArmKinematics():
 
     def get_number_of_dof(self):
         return self.num_of_dof
+
+    def get_home_angle(self):
+        return self.theta0.copy()
 
     def rot_tran_matrix(self, theta, alpha, r, d):
         return np.array([[np.cos(theta), -np.sin(theta) * np.cos(alpha),

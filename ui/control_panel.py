@@ -73,8 +73,8 @@ class ControlPannel():
 
     def send_cmd_msg(self, event):
         msg = self.cmd_txt.get()
-        print(msg)
-        # self.arduino_msg.sendToArduino(msg)
+        logging.info('ControlPannel: Send arduino cmd msg %s', msg)
+        self.robot_manager.send_arduino_cmd_msg(msg)
         self.cmd_entry.delete(0, 'end')
 
     # def create_general_button(self):
@@ -160,22 +160,3 @@ class ControlPannel():
         thetas = self.robot_manager.get_thetas()
         self.sliders_controller.set_angle_values(thetas)
         self.figure_canvas.draw()
-
-    # def draw_circle(self):
-    #     self.robot_manager.set_circle_coords()
-    #     self.robot_manager.start_draw()
-    #     logging.info('ControlPannel: Drawing circle')
-    #
-    # def restart(self):
-    #     logging.info('ControlPannel: Restart')
-    #
-    # def stop(self):
-    #     self.run = not(self.run)
-    #     self.robot_manager.stop(self.run)
-    #     logging.info('ControlPannel: Running %d ', self.run)
-    #     if self.run:
-    #         tk.Button(self.buttons_frame, text='Stop', width=self.buttons_width,
-    #               height=self.buttons_height, bd='10', command=self.stop).grid(row=0, column=1, sticky='nsew')
-    #     else:
-    #         tk.Button(self.buttons_frame, text='Run', width=self.buttons_width,
-    #                   height=self.buttons_height, bd='10', command=self.stop).grid(row=0, column=1, sticky='nsew')

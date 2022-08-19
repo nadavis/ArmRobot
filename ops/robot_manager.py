@@ -16,22 +16,24 @@ class RobotManager():
         self.cv_ops = CVOPS(self.config_ops)
         self.plot_tools = PlotTools(self.config_ops.get_links_size())
         self.arduino_msg_ops = ArduinoMsgOps(self.config_ops)
-        self.prev_thetas = np.zeros(self.get_num_of_joints())
-        self.thetas = np.zeros(self.get_num_of_joints())
+        self.prev_thetas = self.kinematics_ops.get_home_angle()#np.zeros(self.get_num_of_joints())
+        self.thetas = self.kinematics_ops.get_home_angle()#np.zeros(self.get_num_of_joints())
         _, is_collision, H, T = self.kinematics_ops.forward_kinematics(self.thetas)
         self.pos = T[:3, 3]
         self.prev_pos = self.pos.copy()
         # self.circle_coords = self.create_circle_coords()
         # self.coords = self.circle_coords
         self.draw_state = False
-        self.run = True
+        self.run_state = True
+        self.calibrate_state = False
+        self.transformation_state = False
         self.pixel = np.zeros(3)
         self.zero_draw_structures()
         self.counter = 0
-        self.data_buffer = DataBuffer(200, 5, 3, 3)
-
-    # def set_circle_coords(self):
-    #     self.coords = self.circle_coords.copy()
+        self.vx = []
+        self.vy = []
+        self.vz = []
+        self.data_buffer = DataBuffer(200, 5, 3, 3, True)
 
     def get_kinematics_plot(self):
         return self.plot_tools.get_figure()
@@ -57,6 +59,9 @@ class RobotManager():
     def get_rand_angle(self, joint_ind):
         return self.kinematics_ops.get_rand_angle(joint_ind)
 
+    def get_home_angle(self, joint_ind):
+        return self.kinematics_ops.get_home_angle()
+
     def set_current_pos(self, pos):
         self.pos = pos
 
@@ -73,21 +78,27 @@ class RobotManager():
     def set_gripper_pos(self, type):
         self.kinematics_ops.set_gripper_pos(type)
 
-    def stop(self, flg):
-        self.run = flg
+    def set_state(self, flg):
+        self.run_state = flg
         self.zero_draw_structures()
 
     def open_gripper(self):
         self.arduino_msg_ops.open_gripper()
+        time.sleep(0.1)
 
     def close_gripper(self):
         self.arduino_msg_ops.close_gripper()
+        time.sleep(0.1)
 
     def get_frame_data(self):
         return self.frame, self.red_only, self.diff_red, self.rect
 
+    def get_depth_frame_data(self):
+        return self.frame_depth, self.frame_rgb
+
     def save_data(self):
         self.data_buffer.save()
+        self.data_buffer.save_trans_mat()
 
     def load_data(self):
         self.data_buffer.load()
@@ -100,12 +111,16 @@ class RobotManager():
         self.thetas[joint_ind] = theta
         # self.kinematics_ops.set_current_angle_by_ind(joint_ind, theta)
 
+    def send_arduino_cmd_msg(self, msg):
+        self.arduino_msg_ops.send_cmd_msg(msg)
+
+    def get_arduino_msg(self):
+        self.arduino_msg_ops.get_arduino_msg()
+
     def send_arduino_msg(self, thetas):
-        for i in range(len(thetas)):
-            if(self.prev_thetas[i] != thetas[i]):
-                pwm = self.kinematics_ops.angle_2_pwm(i, thetas)
-                self.arduino_msg_ops.send_kinematic_pwm(i, pwm)
-                # self.prev_thetas[i] = thetas[i]
+        logging.info('RobotManager: Sending thetas %s to arduino with respect to prev thetas %s', str(thetas), str(self.prev_thetas))
+        pwm = self.kinematics_ops.angle_2_pwm(thetas)
+        self.arduino_msg_ops.send_kinematic_pwm(pwm)
 
     def is_thetas_changed(self):
         yes = False
@@ -142,21 +157,78 @@ class RobotManager():
             self.prev_pos = self.pos.copy()
         return self.pos
 
+    def set_calibration(self, world_coord, circle_param):
+        if self.cv_ops.get_target_obj() == 'None':
+            logging.error('RobotManager: Target object set to %s', self.cv_ops.get_target_obj())
+        if self.kinematics_ops.get_gripper_pos() == 'None':
+            logging.error('RobotManager: Gripper pos set to %s', self.kinematics_ops.get_gripper_pos())
+        background = self.save_background(True)
+        self.reset_buffers()
+        self.set_draw_param(world_coord, circle_param)
+        self.start_draw()
+        self.set_calibrate_state(True)
+
+        # if self.draw_state:
+        # self.save_data()
+        # db.trans_matrix()
+        #
+        # pos = db.apply_trans_pixel_pos()
+        # pixel = db.apply_trans_pos_pixel()
+
+        return background
+
+    def set_calibrate_state(self, state):
+        logging.info('RobotManager: Set calibration state %s ', str(state))
+        self.calibrate_state = state
+
+    def go_home(self):
+        self.thetas = self.kinematics_ops.get_home_angle()
+        logging.info('RobotManager: Get home thetas %s ', str(self.thetas))
+
+    def robot_calibration(self):
+        if not self.draw_state and self.calibrate_state:
+            logging.info('RobotManager: Robot calibration state %d, draw state %d', self.calibrate_state,
+                         self.draw_state)
+            self.data_buffer.trans_matrix()
+            self.save_data()
+            self.calibrate_state = False
+            self.go_home()
+
     def robot_run(self):
-        if self.run:
-            self.frame, self.red_only, self.diff_red, self.rect = self.cv_ops.get_frame(True)
-            self.draw_shape()
-            self.send_current_pos()
-            _, H, T = self.send_current_angle()
-            if(len(H) > 0):
-                if len(self.rect)>0:
-                    self.pixel = self.cv_ops.get_pixel_coords(self.rect)
-                    self.data_buffer.set(self.thetas, self.pos, self.pixel)
-                self.plot_tools.clean_plot()
-                self.plot_tools.show_kinematics(H, T)
-                self.plot_tools.draw_circle(self.vx[:self.draw_counter], self.vy[:self.draw_counter],
-                                                self.vz[:self.draw_counter])
-            self.counter += 1
+        self.frame, self.red_only, self.diff_red, self.rect = self.cv_ops.get_frame(True)
+        self.frame_depth, self.frame_rgb = self.cv_ops.get_depth_frame(True)
+        self.get_coords()
+        self.send_current_pos()
+        _, H, T = self.send_current_angle()
+        b_set = len(H) > 0
+        self.store_data(b_set)
+        self.robot_calibration()
+        self.show_all(b_set, H, T)
+
+        self.counter += 1
+
+    def get_coords(self):
+        if self.draw_state:
+            self.get_shape_coodrs()
+        # else:
+        if self.transformation_state:
+            self.apply_trans()
+            self.transformation_state = False
+
+    def set_transformation_state(self):
+        logging.info('RobotManager: Pick %s ', str(self.transformation_state))
+        self.open_gripper()
+        self.transformation_state = True
+
+    def apply_trans(self):
+        if len(self.rect) > 0:
+            self.pixel = self.cv_ops.get_pixel_coords(self.rect)
+            self.pos = self.data_buffer.apply_trans_pixel_pos(np.array([self.pixel]))
+
+    def store_data(self, b_set):
+        if b_set and len(self.rect) > 0:
+            self.pixel = self.cv_ops.get_pixel_coords(self.rect)
+            self.data_buffer.set(self.thetas, self.pos, self.pixel)
 
     def save_background(self, RGB):
         frame = self.cv_ops.save_background(RGB)
@@ -185,8 +257,8 @@ class RobotManager():
         number_of_sample = self.draw_params[2]
         pos_circle = []
         for counter in range(0, number_of_sample):
-            x = rx * math.cos(2 * math.pi * counter / number_of_sample) - x0
-            y = ry * math.sin(2 * math.pi * counter / number_of_sample) - y0
+            x = rx * math.cos(2 * math.pi * counter / number_of_sample) + x0
+            y = ry * math.sin(2 * math.pi * counter / number_of_sample) + y0
             pos_circle.append([x, y, z0])
         return pos_circle
 
@@ -199,7 +271,14 @@ class RobotManager():
         self.time_sleep = 100
         self.counter =0
 
-    def draw_shape(self):
+    def show_all(self, b_show, H, T):
+        if (b_show):
+            self.plot_tools.clean_plot()
+            self.plot_tools.show_kinematics(H, T)
+            self.plot_tools.draw_circle(self.vx[:self.draw_counter], self.vy[:self.draw_counter],
+                                        self.vz[:self.draw_counter])
+
+    def get_shape_coodrs(self):
         self.vx = []
         self.vy = []
         self.vz = []
@@ -218,4 +297,4 @@ class RobotManager():
             self.vy = [y[1] for y in self.coords]
             self.vz = [z[2] for z in self.coords]
             if self.draw_counter > 1:
-                self.time_sleep = 40
+                self.time_sleep = 50

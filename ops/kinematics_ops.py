@@ -56,11 +56,17 @@ class KinematicsOps():
         logging.info('KinematicsOps: Converting, PWM value: %d to angle value: %.4f for joint number: %d', val[ind], value, ind)
         return value
 
-    def angle_2_pwm(self, ind, val):
-        val = val[ind] * self.servo_direction[ind]
-        value = self.home_pwm[ind]+val/self.pwm2angle[ind]
-        logging.info('KinematicsOps: Converting angle value: %.4f to pwm value: %d for joint number: %d', val, value, ind)
+    def angle_2_pwm(self, val):
+        val = val * self.servo_direction[:-1]
+        value = self.home_pwm[:-1]+val/self.pwm2angle[:-1]
+        value = self.check_thetas_boundry(value)
+        logging.info('KinematicsOps: Converting angle value: %s to pwm value: %s', str(val), str(value))
         return value
+
+    def get_home_angle(self):
+        thetas = self.arm_kinematics.get_home_angle()
+        logging.info('KinematicsOps: Get home thetas %s ', str(thetas))
+        return thetas.copy()
 
     def get_rand_angle(self, joint_ind):
         min_val = round(self.get_min_angle(joint_ind))
@@ -68,22 +74,6 @@ class KinematicsOps():
         value = random.randint(min(min_val, max_val), max(min_val, max_val))
         logging.info('KinematicsOps: Getting random value: %d for joint number: %d', value, joint_ind)
         return value
-
-    # def set_current_angle_by_ind(self, joint_ind, angle):
-    #     logging.info('KinematicsOps: Setting thetas ind: %s to %s degree', str(joint_ind), str(angle))
-    #     self.thetas[joint_ind] = angle
-
-    # def send_current_angle(self, joint_ind, angle):
-    #     logging.info('KinematicsOps: Setting slider ind: %s to %s degree', str(joint_ind), str(angle))
-    #     if(len(joint_ind)>0):
-    #         self.set_current_angle_by_ind(joint_ind, angle)
-    #     self.thetas, is_collision, H, T = self.forward_kinematics(self.thetas)
-    #     return self.thetas, is_collision, H, T
-
-    # def send_current_angle(self):
-    #     logging.info('KinematicsOps: Setting thetas to %s degree', str(self.thetas))
-    #     self.thetas, is_collision, H, T = self.forward_kinematics(self.thetas)
-    #     return self.thetas, is_collision, H, T
 
     def forward_kinematics(self, thetas):
         logging.info('KinematicsOps: Forware kinematics for thetas = %s', str(thetas))
@@ -122,3 +112,17 @@ class KinematicsOps():
             return theta1
         else:
             return self.thetas
+
+    def check_thetas_boundry(self, pwm):
+        for i in range(len(pwm)):
+            pwm[i] = self.check_pwm_boundry(i, pwm[i], self.min_pwm[i], self.max_pwm[i])
+        return pwm
+
+    def check_pwm_boundry(self, i, pwm, min_pwm, max_pwm):
+        if (pwm < min_pwm):
+            logging.error("KinematicsOps, servo %d pwm %d is out of min boundry %d", i, pwm, min_pwm)
+            pwm = min_pwm
+        if (pwm > max_pwm):
+            logging.error("KinematicsOps, servo %d pwm %d is out of max boundry %d", i, pwm, max_pwm)
+            pwm = max_pwm
+        return pwm

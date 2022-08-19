@@ -13,17 +13,17 @@ class CVController():
         self.buttons_width = 15
         self.buttons_height = 3
         self.x = tk.IntVar()
-        self.x.set(20)
+        self.x.set(-25)
         self.y = tk.IntVar()
         self.y.set(0)
         self.z = tk.IntVar()
-        self.z.set(3)
+        self.z.set(4)
         self.rx = tk.IntVar()
         self.rx.set(8)
         self.ry = tk.IntVar()
         self.ry.set(16)
         self.num_of_sample = tk.IntVar()
-        self.num_of_sample.set(10)
+        self.num_of_sample.set(15)
         self.obj_list = [
             "None",
             "RedBox",
@@ -85,7 +85,7 @@ class CVController():
                   height=self.buttons_height, bd='10', command=self.stop).grid(row=0, column=2, sticky='nsew')
 
         tk.Button(self.buttons_frame, text='Draw Circle', width=self.buttons_width,
-                  height=self.buttons_height, bd='10', command=self.draw_circle).grid(row=1, column=2, sticky='nsew')
+                  height=self.buttons_height, bd='10', command=self.draw_circle).grid(row=2, column=2, sticky='nsew')
 
         tk.Button(self.buttons_frame, text='Save data', width=self.buttons_width,
                   height=self.buttons_height, bd='10', command=self.save_data).grid(row=1, column=2, sticky='nsew')
@@ -129,6 +129,12 @@ class CVController():
         self.zEntry.bind('<KeyRelease>', self.set_xyz)
         self.zEntry.grid(row=2, column=3, sticky='nsew')
 
+        tk.Button(self.buttons_general_frame, text='Calibration', width=self.buttons_width,
+                  height=self.buttons_height, bd='10', command=self.robot_calibration).grid(row=3, column=0, sticky='nsew')
+
+        tk.Button(self.buttons_general_frame, text='Pick', width=self.buttons_width,
+                  height=self.buttons_height, bd='10', command=self.set_transformation_state).grid(row=3, column=1,
+                                                                                            sticky='nsew')
 
     def set_xyz(self, event):
         self.world_coord = [self.x.get(), self.y.get(), self.z.get()]
@@ -146,6 +152,13 @@ class CVController():
     def go_to(self):
         logging.info('CVController: Go to %s', str(self.world_coord))
         self.robot_manager.set_current_pos(self.world_coord)
+
+    def set_depth_frame_to_canvas(self):
+        frame_depth, frame_rgb = self.robot_manager.get_depth_frame_data()
+        self.frame_rgb = ImageTk.PhotoImage(image=Image.fromarray(frame_rgb))
+        self.background_canvas.create_image(0, 0, image=self.frame_rgb, anchor='nw')
+        # self.frame_depth = ImageTk.PhotoImage(image=Image.fromarray(frame_depth))
+        # self.video_depth_canvas.create_image(0, 0, image=self.frame_depth, anchor='nw')
 
     def set_frame_to_canvas(self):
         frame, red_only, diff_red, rect = self.robot_manager.get_frame_data()
@@ -182,10 +195,10 @@ class CVController():
 
     def save_data(self):
         logging.info('CVController: Saving data')
-        self.robot_manager.set_store_flg(self.store_flg.get())
+        # self.robot_manager.set_store_flg(self.store_flg.get())
+        self.robot_manager.save_data()
 
     def draw_circle(self):
-        # self.robot_manager.set_circle_coords()
         self.world_coord = [self.x.get(), self.y.get(), self.z.get()]
         self.circle_param = [self.rx.get(), self.ry.get(), self.num_of_sample.get()]
         logging.info('CVController: Draw params %s, %s', str(self.world_coord), str(self.circle_param))
@@ -193,12 +206,24 @@ class CVController():
         self.robot_manager.start_draw()
         logging.info('ControlPannel: Drawing circle')
 
+    def set_transformation_state(self):
+        self.robot_manager.set_transformation_state()
+
+    def robot_calibration(self):
+        self.world_coord = [self.x.get(), self.y.get(), self.z.get()]
+        self.circle_param = [self.rx.get(), self.ry.get(), self.num_of_sample.get()]
+        logging.info('CVController: Calibration %s, %s', str(self.world_coord), str(self.circle_param))
+        self.background = self.robot_manager.set_calibration(self.world_coord, self.circle_param)
+        self.image = ImageTk.PhotoImage(image=Image.fromarray(self.background))
+        self.background_canvas.create_image(0, 0, image=self.image, anchor='nw')
+
     def restart(self):
         logging.info('ControlPannel: Restart')
 
     def stop(self):
         self.run = not(self.run)
-        self.robot_manager.stop(self.run)
+        self.robot_manager.set_state(self.run)
+
         logging.info('ControlPannel: Running %d ', self.run)
         if self.run:
             tk.Button(self.buttons_frame, text='Stop', width=self.buttons_width,
