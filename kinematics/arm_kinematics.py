@@ -25,7 +25,7 @@ class ArmKinematics():
     def get_number_of_dof(self):
         return self.num_of_dof
 
-    def get_home_angle(self):
+    def get_home_angles(self):
         return self.theta0.copy()
 
     def rot_tran_matrix(self, theta, alpha, r, d):

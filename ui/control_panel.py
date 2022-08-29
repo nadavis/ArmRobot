@@ -132,17 +132,17 @@ class ControlPannel():
         state = self.run_to_type.get()
         logging.info('ControlPannel: Run to position %s', state)
         if state=='Home':
-            self.sliders_controller.set_home_values()
+            self.robot_manager.set_home_angles()
         elif state=='Min':
-            self.sliders_controller.set_min_values()
+            self.robot_manager.set_min_angles()
         elif state=='Max':
-            self.sliders_controller.set_max_values()
+            self.robot_manager.set_max_angles()
         elif state=='Random':
-            self.sliders_controller.set_rand_values()
+            self.robot_manager.set_rand_angles()
         elif state=='Squeeze':
-            self.sliders_controller.set_squeeze_values()
+            self.robot_manager.set_squeeze_angles()
         elif(state=='Span'):
-            self.sliders_controller.set_span_values()
+            self.robot_manager.set_span_angles()
 
     def set_gripper_pos(self, *args):
         self.robot_manager.set_gripper_pos(self.gripper_pos.get())
@@ -157,6 +157,8 @@ class ControlPannel():
             self.robot_manager.close_gripper()
 
     def set_thetas_to_sliders(self):
-        thetas = self.robot_manager.get_thetas()
-        self.sliders_controller.set_angle_values(thetas)
-        self.figure_canvas.draw()
+        if self.robot_manager.is_thetas_changed():
+            thetas = self.robot_manager.get_thetas()
+            logging.info('ControlPannel: Set thetas to sliders %s', str(thetas))
+            self.sliders_controller.set_angle_values(thetas)
+            self.figure_canvas.draw()

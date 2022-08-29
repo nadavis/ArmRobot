@@ -84,33 +84,33 @@ class SlidersController:
 
         return thetas
 
-    def set_min_values(self):
-        self.joint_slider[0].set_home_value()
-        for i in range(1, self.num_of_joint):
-            self.joint_slider[i].set_min_value()
+    # def set_min_values(self):
+    #     self.joint_slider[0].set_home_value()
+    #     for i in range(1, self.num_of_joint):
+    #         self.joint_slider[i].set_min_value()
+    #
+    # def set_max_values(self):
+    #     self.joint_slider[0].set_home_value()
+    #     for i in range(1, self.num_of_joint):
+    #         self.joint_slider[i].set_max_value()
 
-    def set_max_values(self):
-        self.joint_slider[0].set_home_value()
-        for i in range(1, self.num_of_joint):
-            self.joint_slider[i].set_max_value()
+    # def set_span_values(self):
+    #     self.joint_slider[0].set_home_value()
+    #     self.joint_slider[1].set_value(90)
+    #     self.joint_slider[2].set_home_value()
+    #     self.joint_slider[3].set_home_value()
+    #     self.joint_slider[4].set_home_value()
 
-    def set_span_values(self):
-        self.joint_slider[0].set_home_value()
-        self.joint_slider[1].set_value(90)
-        self.joint_slider[2].set_home_value()
-        self.joint_slider[3].set_home_value()
-        self.joint_slider[4].set_home_value()
+    # def set_squeeze_values(self):
+    #     self.joint_slider[0].set_home_value()
+    #     self.joint_slider[1].set_min_value()
+    #     self.joint_slider[2].set_max_value()
+    #     self.joint_slider[3].set_home_value()
+    #     self.joint_slider[4].set_min_value()
 
-    def set_squeeze_values(self):
-        self.joint_slider[0].set_home_value()
-        self.joint_slider[1].set_min_value()
-        self.joint_slider[2].set_max_value()
-        self.joint_slider[3].set_home_value()
-        self.joint_slider[4].set_min_value()
-
-    def set_rand_values(self):
-        for i in range(0, self.num_of_joint):
-            self.joint_slider[i].set_rand_value()
+    # def set_rand_values(self):
+    #     for i in range(0, self.num_of_joint):
+    #         self.joint_slider[i].set_rand_value()
 
     def set_angle_values(self, angle):
         for i in range(0, self.num_of_joint):

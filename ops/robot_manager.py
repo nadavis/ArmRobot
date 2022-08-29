@@ -16,8 +16,8 @@ class RobotManager():
         self.cv_ops = CVOPS(self.config_ops)
         self.plot_tools = PlotTools(self.config_ops.get_links_size())
         self.arduino_msg_ops = ArduinoMsgOps(self.config_ops)
-        self.prev_thetas = self.kinematics_ops.get_home_angle()#np.zeros(self.get_num_of_joints())
-        self.thetas = self.kinematics_ops.get_home_angle()#np.zeros(self.get_num_of_joints())
+        self.prev_thetas = self.kinematics_ops.get_home_angles()#np.zeros(self.get_num_of_joints())
+        self.thetas = self.kinematics_ops.get_home_angles()#np.zeros(self.get_num_of_joints())
         _, is_collision, H, T = self.kinematics_ops.forward_kinematics(self.thetas)
         self.pos = T[:3, 3]
         self.prev_pos = self.pos.copy()
@@ -59,8 +59,35 @@ class RobotManager():
     def get_rand_angle(self, joint_ind):
         return self.kinematics_ops.get_rand_angle(joint_ind)
 
-    def get_home_angle(self, joint_ind):
-        return self.kinematics_ops.get_home_angle()
+    def get_min_angles(self):
+        return self.kinematics_ops.get_min_angles()
+
+    def set_min_angles(self):
+        self.thetas = self.kinematics_ops.get_min_angles()
+
+    def get_max_angles(self):
+        return self.kinematics_ops.get_max_angles()
+
+    def set_max_angles(self):
+        self.thetas = self.kinematics_ops.get_max_angles()
+
+    def get_rand_angles(self):
+        return self.kinematics_ops.get_rand_angles()
+
+    def set_rand_angles(self):
+        self.thetas = self.kinematics_ops.get_rand_angles()
+
+    def get_home_angle(self):
+        return self.kinematics_ops.get_home_angles()
+
+    def set_home_angles(self):
+        self.thetas = self.kinematics_ops.get_home_angles()
+
+    def set_span_angles(self):
+        self.thetas = self.kinematics_ops.get_span_angles()
+
+    def set_squeeze_angles(self):
+        self.thetas = self.kinematics_ops.get_squeeze_angles()
 
     def set_current_pos(self, pos):
         self.pos = pos
@@ -119,7 +146,7 @@ class RobotManager():
 
     def send_arduino_msg(self, thetas):
         logging.info('RobotManager: Sending thetas %s to arduino with respect to prev thetas %s', str(thetas), str(self.prev_thetas))
-        pwm = self.kinematics_ops.angle_2_pwm(thetas)
+        pwm = self.kinematics_ops.angles_2_pwm(thetas)
         self.arduino_msg_ops.send_kinematic_pwm(pwm)
 
     def is_thetas_changed(self):

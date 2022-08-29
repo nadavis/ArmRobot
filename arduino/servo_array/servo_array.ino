@@ -120,7 +120,6 @@ void setCurrentPwm(){
       current_pwm[i] = checkPwmBoundry(i, current_pwm[i], min_pwm[i], max_pwm[i]);
     }
   }
-  
 }
 
 int checkPwmBoundry(int i, int pwm, int min_pwm, int max_pwm){

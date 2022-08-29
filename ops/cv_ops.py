@@ -9,9 +9,11 @@ import cv2 as cv
 
 class CVOPS():
     def __init__(self, config_manager):
-
-        self.dc = DepthCamera(config_manager.video_stream_config['width_target'])
-        self.video_stream = VideoStream(1, config_manager.video_stream_config['width_target'])
+        fps = config_manager.get_fps()
+        camera_id = config_manager.get_camera_id()
+        width_target = config_manager.get_width_target()
+        self.dc = DepthCamera(fps, width_target)
+        self.video_stream = VideoStream(fps, camera_id, width_target)
         self.min_obj_size = config_manager.get_min_obj_size()
         self.background = []
 

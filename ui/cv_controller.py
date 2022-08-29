@@ -155,10 +155,11 @@ class CVController():
 
     def set_depth_frame_to_canvas(self):
         frame_depth, frame_rgb = self.robot_manager.get_depth_frame_data()
-        self.frame_rgb = ImageTk.PhotoImage(image=Image.fromarray(frame_rgb))
-        self.background_canvas.create_image(0, 0, image=self.frame_rgb, anchor='nw')
-        # self.frame_depth = ImageTk.PhotoImage(image=Image.fromarray(frame_depth))
-        # self.video_depth_canvas.create_image(0, 0, image=self.frame_depth, anchor='nw')
+        if len(frame_rgb)>0:
+            self.frame_rgb = ImageTk.PhotoImage(image=Image.fromarray(frame_rgb))
+            self.background_canvas.create_image(0, 0, image=self.frame_rgb, anchor='nw')
+            # self.frame_depth = ImageTk.PhotoImage(image=Image.fromarray(frame_depth))
+            # self.video_depth_canvas.create_image(0, 0, image=self.frame_depth, anchor='nw')
 
     def set_frame_to_canvas(self):
         frame, red_only, diff_red, rect = self.robot_manager.get_frame_data()

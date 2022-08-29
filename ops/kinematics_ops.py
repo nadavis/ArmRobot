@@ -46,9 +46,19 @@ class KinematicsOps():
         logging.info('KinematicsOps: Getting min value: %.4f for joint number: %d', value, joint_ind)
         return value
 
+    def get_min_angles(self):
+        value = self.pwm_2_angles(self.min_pwm)
+        logging.info('KinematicsOps: Getting min value: %s', str(value))
+        return value
+
     def get_max_angle(self, joint_ind):
         value = self.pwm_2_angle(joint_ind, self.max_pwm)
         logging.info('KinematicsOps: Getting max value: %.4f for joint number: %d', value, joint_ind)
+        return value
+
+    def get_max_angles(self):
+        value = self.pwm_2_angles(self.max_pwm)
+        logging.info('KinematicsOps: Getting max value: %s', str(value))
         return value
 
     def pwm_2_angle(self, ind, val):
@@ -56,15 +66,21 @@ class KinematicsOps():
         logging.info('KinematicsOps: Converting, PWM value: %d to angle value: %.4f for joint number: %d', val[ind], value, ind)
         return value
 
-    def angle_2_pwm(self, val):
+    def pwm_2_angles(self, val):
+        # value = (val-self.home_pwm[:-1])*self.pwm2angle[:-1]
+        value = (val - self.home_pwm) * self.pwm2angle
+        logging.info('KinematicsOps: Converting, PWM values: %s to angle value: %s ', str(val), str(value))
+        return value[:-1].copy()
+
+    def angles_2_pwm(self, val):
         val = val * self.servo_direction[:-1]
         value = self.home_pwm[:-1]+val/self.pwm2angle[:-1]
         value = self.check_thetas_boundry(value)
         logging.info('KinematicsOps: Converting angle value: %s to pwm value: %s', str(val), str(value))
         return value
 
-    def get_home_angle(self):
-        thetas = self.arm_kinematics.get_home_angle()
+    def get_home_angles(self):
+        thetas = self.arm_kinematics.get_home_angles()
         logging.info('KinematicsOps: Get home thetas %s ', str(thetas))
         return thetas.copy()
 
@@ -74,6 +90,25 @@ class KinematicsOps():
         value = random.randint(min(min_val, max_val), max(min_val, max_val))
         logging.info('KinematicsOps: Getting random value: %d for joint number: %d', value, joint_ind)
         return value
+
+    def get_rand_angles(self):
+        value = np.zeros(self.get_num_of_joints())
+        for joint_ind in range(len(value)):
+            value[joint_ind] = self.get_rand_angle(joint_ind)
+        logging.info('KinematicsOps: Getting random values: %s', str(value))
+        return value
+
+    def get_squeeze_angles(self):
+        values = self.get_home_angles()
+        values[1] = self.get_min_angle(1)
+        values[2] = self.get_max_angle(2)
+        values[4] = self.get_min_angle(4)
+        return values
+
+    def get_span_angles(self):
+        values = self.get_home_angles()
+        values[1] = 90
+        return values
 
     def forward_kinematics(self, thetas):
         logging.info('KinematicsOps: Forware kinematics for thetas = %s', str(thetas))

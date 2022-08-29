@@ -17,6 +17,15 @@ class ConfigOps():
         self.kinematics_config = self.config['kinematics']
         self.cv_config = self.config['obj_detection']
 
+    def get_fps(self):
+        return self.video_stream_config['fps']
+
+    def get_camera_id(self):
+        return self.video_stream_config['camera_id']
+
+    def get_width_target(self):
+        return self.video_stream_config['width_target']
+
     def get_angle_max(self):
         return self.servo_config['angle_max']
 

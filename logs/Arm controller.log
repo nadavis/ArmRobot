@@ -1,47 +1,254 @@
-08/19/2022 09:02:54 PM StartedArm controller
-08/19/2022 09:02:54 PM KinematicsOps: Getting number of dof, number of dof is: 5
-08/19/2022 09:02:55 PM VideoStream: Video is opening
-08/19/2022 09:02:56 PM VideoStream: Video resolution is [1920.0, 1080.0]
-08/19/2022 09:02:56 PM VideoStream: Resize video resolution is (320, 180)
-08/19/2022 09:02:56 PM ArduinoMsg: Arduino serial cannt init and find a port /dev/cu.usbmodem1433301 
-08/19/2022 09:02:56 PM KinematicsOps: Get home thetas [0, 0, 0, 0, 0] 
-08/19/2022 09:02:56 PM KinematicsOps: Get home thetas [0, 0, 0, 0, 0] 
-08/19/2022 09:02:56 PM KinematicsOps: Forware kinematics for thetas = [0, 0, 0, 0, 0]
-08/19/2022 09:02:56 PM ArmKinematics: Getting gripper pos None 
-08/19/2022 09:02:56 PM ArmKinematics: Calc forward kinematics of thetas [0 0 0 0 0 0] 
-08/19/2022 09:02:56 PM KinematicsOps: Estimated pos is [ 0.   0.  68.8] 
-08/19/2022 09:02:56 PM DataBuffer: Loading data to buffer.
-08/19/2022 09:02:56 PM KinematicsOps: Getting number of dof, number of dof is: 5
-08/19/2022 09:02:56 PM KinematicsOps: Converting, PWM value: 600 to angle value: -139.5556 for joint number: 0
-08/19/2022 09:02:56 PM KinematicsOps: Getting min value: -139.5556 for joint number: 0
-08/19/2022 09:02:56 PM KinematicsOps: Converting, PWM value: 2400 to angle value: 174.4444 for joint number: 0
-08/19/2022 09:02:56 PM KinematicsOps: Getting max value: 174.4444 for joint number: 0
-08/19/2022 09:02:56 PM KinematicsOps: Getting direction joint is: -1 for joint number: 0
-08/19/2022 09:02:56 PM KinematicsOps: Converting, PWM value: 1500 to angle value: -131.2071 for joint number: 1
-08/19/2022 09:02:56 PM KinematicsOps: Getting min value: -131.2071 for joint number: 1
-08/19/2022 09:02:56 PM KinematicsOps: Converting, PWM value: 2400 to angle value: 95.8821 for joint number: 1
-08/19/2022 09:02:56 PM KinematicsOps: Getting max value: 95.8821 for joint number: 1
-08/19/2022 09:02:56 PM KinematicsOps: Getting direction joint is: -1 for joint number: 1
-08/19/2022 09:02:56 PM KinematicsOps: Converting, PWM value: 1150 to angle value: -133.1753 for joint number: 2
-08/19/2022 09:02:56 PM KinematicsOps: Getting min value: -133.1753 for joint number: 2
-08/19/2022 09:02:56 PM KinematicsOps: Converting, PWM value: 1950 to angle value: 149.4248 for joint number: 2
-08/19/2022 09:02:56 PM KinematicsOps: Getting max value: 149.4248 for joint number: 2
-08/19/2022 09:02:56 PM KinematicsOps: Getting direction joint is: 1 for joint number: 2
-08/19/2022 09:02:56 PM KinematicsOps: Converting, PWM value: 500 to angle value: -167.0192 for joint number: 3
-08/19/2022 09:02:56 PM KinematicsOps: Getting min value: -167.0192 for joint number: 3
-08/19/2022 09:02:56 PM KinematicsOps: Converting, PWM value: 2500 to angle value: 179.1346 for joint number: 3
-08/19/2022 09:02:56 PM KinematicsOps: Getting max value: 179.1346 for joint number: 3
-08/19/2022 09:02:56 PM KinematicsOps: Getting direction joint is: 1 for joint number: 3
-08/19/2022 09:02:56 PM KinematicsOps: Converting, PWM value: 500 to angle value: -117.9000 for joint number: 4
-08/19/2022 09:02:56 PM KinematicsOps: Getting min value: -117.9000 for joint number: 4
-08/19/2022 09:02:56 PM KinematicsOps: Converting, PWM value: 2500 to angle value: 32.1000 for joint number: 4
-08/19/2022 09:02:56 PM KinematicsOps: Getting max value: 32.1000 for joint number: 4
-08/19/2022 09:02:56 PM KinematicsOps: Getting direction joint is: -1 for joint number: 4
-08/19/2022 09:02:56 PM KinematicsOps: Forware kinematics for thetas = [0, 0, 0, 0, 0]
-08/19/2022 09:02:56 PM ArmKinematics: Getting gripper pos None 
-08/19/2022 09:02:56 PM ArmKinematics: Calc forward kinematics of thetas [0 0 0 0 0 0] 
-08/19/2022 09:02:56 PM KinematicsOps: Estimated pos is [ 0.   0.  68.8] 
-08/19/2022 09:02:56 PM PlotTools: Show thetas T = [[ 0.  -1.   0.   0. ]
+08/22/2022 02:57:45 PM StartedArm controller
+08/22/2022 02:57:45 PM KinematicsOps: Getting number of dof, number of dof is: 5
+08/22/2022 02:57:46 PM Cannot open depth camera
+08/22/2022 02:57:46 PM VideoStream: Video is opening
+08/22/2022 02:57:46 PM VideoStream: Video resolution is [1280.0, 720.0]
+08/22/2022 02:57:46 PM VideoStream: Resize video resolution is (320, 180)
+08/22/2022 02:57:46 PM ArduinoMsg: Serial port /dev/cu.usbmodem1433301 opened  Baudrate 9600
+08/22/2022 02:57:46 PM ArduinoMsg: Waiting for Arduino to reset
+08/22/2022 02:57:48 PM ArduinoMsg: Received from Arduino Arduino is ready 
+08/22/2022 02:57:48 PM KinematicsOps: Get home thetas [0, 0, 0, 0, 0] 
+08/22/2022 02:57:48 PM KinematicsOps: Get home thetas [0, 0, 0, 0, 0] 
+08/22/2022 02:57:48 PM KinematicsOps: Forware kinematics for thetas = [0, 0, 0, 0, 0]
+08/22/2022 02:57:48 PM ArmKinematics: Getting gripper pos None 
+08/22/2022 02:57:48 PM ArmKinematics: Calc forward kinematics of thetas [0 0 0 0 0 0] 
+08/22/2022 02:57:48 PM KinematicsOps: Estimated pos is [ 0.   0.  68.8] 
+08/22/2022 02:57:48 PM DataBuffer: Loading data to buffer.
+08/22/2022 02:57:48 PM KinematicsOps: Getting number of dof, number of dof is: 5
+08/22/2022 02:57:48 PM KinematicsOps: Converting, PWM value: 600 to angle value: -139.5556 for joint number: 0
+08/22/2022 02:57:48 PM KinematicsOps: Getting min value: -139.5556 for joint number: 0
+08/22/2022 02:57:48 PM KinematicsOps: Converting, PWM value: 2400 to angle value: 174.4444 for joint number: 0
+08/22/2022 02:57:48 PM KinematicsOps: Getting max value: 174.4444 for joint number: 0
+08/22/2022 02:57:48 PM KinematicsOps: Getting direction joint is: -1 for joint number: 0
+08/22/2022 02:57:48 PM KinematicsOps: Converting, PWM value: 1500 to angle value: -131.2071 for joint number: 1
+08/22/2022 02:57:48 PM KinematicsOps: Getting min value: -131.2071 for joint number: 1
+08/22/2022 02:57:48 PM KinematicsOps: Converting, PWM value: 2400 to angle value: 95.8821 for joint number: 1
+08/22/2022 02:57:48 PM KinematicsOps: Getting max value: 95.8821 for joint number: 1
+08/22/2022 02:57:48 PM KinematicsOps: Getting direction joint is: -1 for joint number: 1
+08/22/2022 02:57:48 PM KinematicsOps: Converting, PWM value: 1150 to angle value: -133.1753 for joint number: 2
+08/22/2022 02:57:48 PM KinematicsOps: Getting min value: -133.1753 for joint number: 2
+08/22/2022 02:57:48 PM KinematicsOps: Converting, PWM value: 1950 to angle value: 149.4248 for joint number: 2
+08/22/2022 02:57:48 PM KinematicsOps: Getting max value: 149.4248 for joint number: 2
+08/22/2022 02:57:48 PM KinematicsOps: Getting direction joint is: 1 for joint number: 2
+08/22/2022 02:57:48 PM KinematicsOps: Converting, PWM value: 500 to angle value: -167.0192 for joint number: 3
+08/22/2022 02:57:48 PM KinematicsOps: Getting min value: -167.0192 for joint number: 3
+08/22/2022 02:57:48 PM KinematicsOps: Converting, PWM value: 2500 to angle value: 179.1346 for joint number: 3
+08/22/2022 02:57:48 PM KinematicsOps: Getting max value: 179.1346 for joint number: 3
+08/22/2022 02:57:48 PM KinematicsOps: Getting direction joint is: 1 for joint number: 3
+08/22/2022 02:57:48 PM KinematicsOps: Converting, PWM value: 500 to angle value: -117.9000 for joint number: 4
+08/22/2022 02:57:48 PM KinematicsOps: Getting min value: -117.9000 for joint number: 4
+08/22/2022 02:57:48 PM KinematicsOps: Converting, PWM value: 2500 to angle value: 32.1000 for joint number: 4
+08/22/2022 02:57:48 PM KinematicsOps: Getting max value: 32.1000 for joint number: 4
+08/22/2022 02:57:48 PM KinematicsOps: Getting direction joint is: -1 for joint number: 4
+08/22/2022 02:57:48 PM KinematicsOps: Forware kinematics for thetas = [0, 0, 0, 0, 0]
+08/22/2022 02:57:48 PM ArmKinematics: Getting gripper pos None 
+08/22/2022 02:57:48 PM ArmKinematics: Calc forward kinematics of thetas [0 0 0 0 0 0] 
+08/22/2022 02:57:48 PM KinematicsOps: Estimated pos is [ 0.   0.  68.8] 
+08/22/2022 02:57:48 PM PlotTools: Show thetas T = [[ 0.  -1.   0.   0. ]
  [ 0.   0.  -1.   0. ]
  [ 1.   0.   0.  68.8]
  [ 0.   0.   0.   1. ]]
+08/22/2022 02:57:56 PM SliderFrame: Slider number 1 is changing
+08/22/2022 02:57:56 PM RobotManager: Setting theta 4, ind 1
+08/22/2022 02:57:56 PM SliderFrame: Slider number 1 is changing
+08/22/2022 02:57:56 PM RobotManager: Setting theta 7, ind 1
+08/22/2022 02:57:56 PM SliderFrame: Slider number 1 is changing
+08/22/2022 02:57:56 PM RobotManager: Setting theta 11, ind 1
+08/22/2022 02:57:56 PM SliderFrame: Slider number 1 is changing
+08/22/2022 02:57:56 PM RobotManager: Setting theta 18, ind 1
+08/22/2022 02:57:56 PM RobotManager: Sending current thetas [0, 18, 0, 0, 0]
+08/22/2022 02:57:56 PM KinematicsOps: Forware kinematics for thetas = [0, 18, 0, 0, 0]
+08/22/2022 02:57:56 PM ArmKinematics: Getting gripper pos None 
+08/22/2022 02:57:56 PM ArmKinematics: Calc forward kinematics of thetas [ 0 18  0  0  0  0] 
+08/22/2022 02:57:56 PM KinematicsOps: Estimated pos is [-16.84143   0.       66.13258] 
+08/22/2022 02:57:56 PM RobotManager: Sending thetas [0, 18, 0, 0, 0] to arduino with respect to prev thetas [0, 0, 0, 0, 0]
+08/22/2022 02:57:56 PM KinematicsOps: Converting angle value: [  0 -18   0   0   0] to pwm value: [1400.         1948.66242038 1527.         1465.         2072.        ]
+08/22/2022 02:57:56 PM ArduinoMsgOps: Send msg run:1400:1949:1527:1465:2072 to arduino
+08/22/2022 02:57:56 PM ArduinoMsg: Sent msg run:1400:1949:1527:1465:2072 to arduino
+08/22/2022 02:57:56 PM PlotTools: Show thetas T = [[ -0.30902  -0.95106   0.      -16.84143]
+ [  0.       -0.       -1.        0.     ]
+ [  0.95106  -0.30902   0.       66.13258]
+ [  0.        0.        0.        1.     ]]
+08/22/2022 02:57:56 PM SliderFrame: Slider number 1 is changing
+08/22/2022 02:57:56 PM RobotManager: Setting theta 48, ind 1
+08/22/2022 02:57:56 PM SliderFrame: Slider number 1 is changing
+08/22/2022 02:57:56 PM RobotManager: Setting theta 51, ind 1
+08/22/2022 02:57:56 PM SliderFrame: Slider number 1 is changing
+08/22/2022 02:57:56 PM RobotManager: Setting theta 54, ind 1
+08/22/2022 02:57:56 PM SliderFrame: Slider number 1 is changing
+08/22/2022 02:57:56 PM RobotManager: Setting theta 58, ind 1
+08/22/2022 02:57:56 PM RobotManager: Sending current thetas [0, 58, 0, 0, 0]
+08/22/2022 02:57:56 PM KinematicsOps: Forware kinematics for thetas = [0, 58, 0, 0, 0]
+08/22/2022 02:57:56 PM ArmKinematics: Getting gripper pos None 
+08/22/2022 02:57:56 PM ArmKinematics: Calc forward kinematics of thetas [ 0 58  0  0  0  0] 
+08/22/2022 02:57:56 PM KinematicsOps: Estimated pos is [-46.21862   0.       43.1806 ] 
+08/22/2022 02:57:56 PM RobotManager: Sending thetas [0, 58, 0, 0, 0] to arduino with respect to prev thetas [0, 18, 0, 0, 0]
+08/22/2022 02:57:56 PM KinematicsOps: Converting angle value: [  0 -58   0   0   0] to pwm value: [1400.         1790.13446568 1527.         1465.         2072.        ]
+08/22/2022 02:57:56 PM ArduinoMsgOps: Send msg run:1400:1790:1527:1465:2072 to arduino
+08/22/2022 02:57:56 PM ArduinoMsg: Sent msg run:1400:1790:1527:1465:2072 to arduino
+08/22/2022 02:57:56 PM PlotTools: Show thetas T = [[ -0.84805  -0.52992  -0.      -46.21862]
+ [  0.       -0.       -1.        0.     ]
+ [  0.52992  -0.84805   0.       43.1806 ]
+ [  0.        0.        0.        1.     ]]
+08/22/2022 02:57:56 PM SliderFrame: Slider number 1 is changing
+08/22/2022 02:57:56 PM RobotManager: Setting theta 68, ind 1
+08/22/2022 02:57:56 PM RobotManager: Sending current thetas [0, 68, 0, 0, 0]
+08/22/2022 02:57:56 PM KinematicsOps: Forware kinematics for thetas = [0, 68, 0, 0, 0]
+08/22/2022 02:57:56 PM ArmKinematics: Getting gripper pos None 
+08/22/2022 02:57:56 PM ArmKinematics: Calc forward kinematics of thetas [ 0 68  0  0  0  0] 
+08/22/2022 02:57:56 PM KinematicsOps: Estimated pos is [-50.53152  -0.       34.71606] 
+08/22/2022 02:57:56 PM RobotManager: Sending thetas [0, 68, 0, 0, 0] to arduino with respect to prev thetas [0, 58, 0, 0, 0]
+08/22/2022 02:57:56 PM KinematicsOps: Converting angle value: [  0 -68   0   0   0] to pwm value: [1400.       1750.502477 1527.       1465.       2072.      ]
+08/22/2022 02:57:56 PM ArduinoMsgOps: Send msg run:1400:1751:1527:1465:2072 to arduino
+08/22/2022 02:57:56 PM ArduinoMsg: Sent msg run:1400:1751:1527:1465:2072 to arduino
+08/22/2022 02:57:56 PM PlotTools: Show thetas T = [[ -0.92718  -0.37461  -0.      -50.53152]
+ [  0.       -0.       -1.       -0.     ]
+ [  0.37461  -0.92718   0.       34.71606]
+ [  0.        0.        0.        1.     ]]
+08/22/2022 02:57:56 PM SliderFrame: Slider number 1 is changing
+08/22/2022 02:57:56 PM RobotManager: Setting theta 71, ind 1
+08/22/2022 02:57:56 PM RobotManager: Sending current thetas [0, 71, 0, 0, 0]
+08/22/2022 02:57:56 PM KinematicsOps: Forware kinematics for thetas = [0, 71, 0, 0, 0]
+08/22/2022 02:57:56 PM ArmKinematics: Getting gripper pos None 
+08/22/2022 02:57:56 PM ArmKinematics: Calc forward kinematics of thetas [ 0 71  0  0  0  0] 
+08/22/2022 02:57:56 PM KinematicsOps: Estimated pos is [-51.53076  -0.       32.04346] 
+08/22/2022 02:57:56 PM RobotManager: Sending thetas [0, 71, 0, 0, 0] to arduino with respect to prev thetas [0, 68, 0, 0, 0]
+08/22/2022 02:57:56 PM KinematicsOps: Converting angle value: [  0 -71   0   0   0] to pwm value: [1400.        1738.6128804 1527.        1465.        2072.       ]
+08/22/2022 02:57:56 PM ArduinoMsgOps: Send msg run:1400:1739:1527:1465:2072 to arduino
+08/22/2022 02:57:56 PM ArduinoMsg: Sent msg run:1400:1739:1527:1465:2072 to arduino
+08/22/2022 02:57:56 PM PlotTools: Show thetas T = [[ -0.94552  -0.32557   0.      -51.53076]
+ [  0.       -0.       -1.       -0.     ]
+ [  0.32557  -0.94552   0.       32.04346]
+ [  0.        0.        0.        1.     ]]
+08/22/2022 02:57:56 PM SliderFrame: Slider number 1 is changing
+08/22/2022 02:57:56 PM RobotManager: Setting theta 68, ind 1
+08/22/2022 02:57:56 PM SliderFrame: Slider number 1 is changing
+08/22/2022 02:57:56 PM RobotManager: Setting theta 64, ind 1
+08/22/2022 02:57:56 PM RobotManager: Sending current thetas [0, 64, 0, 0, 0]
+08/22/2022 02:57:56 PM KinematicsOps: Forware kinematics for thetas = [0, 64, 0, 0, 0]
+08/22/2022 02:57:56 PM ArmKinematics: Getting gripper pos None 
+08/22/2022 02:57:56 PM ArmKinematics: Calc forward kinematics of thetas [ 0 64  0  0  0  0] 
+08/22/2022 02:57:56 PM KinematicsOps: Estimated pos is [-48.98428   0.       38.19123] 
+08/22/2022 02:57:56 PM RobotManager: Sending thetas [0, 64, 0, 0, 0] to arduino with respect to prev thetas [0, 71, 0, 0, 0]
+08/22/2022 02:57:56 PM KinematicsOps: Converting angle value: [  0 -64   0   0   0] to pwm value: [1400.         1766.35527247 1527.         1465.         2072.        ]
+08/22/2022 02:57:56 PM ArduinoMsgOps: Send msg run:1400:1766:1527:1465:2072 to arduino
+08/22/2022 02:57:56 PM ArduinoMsg: Sent msg run:1400:1766:1527:1465:2072 to arduino
+08/22/2022 02:57:56 PM PlotTools: Show thetas T = [[ -0.89879  -0.43837   0.      -48.98428]
+ [  0.       -0.       -1.        0.     ]
+ [  0.43837  -0.89879   0.       38.19123]
+ [  0.        0.        0.        1.     ]]
+08/22/2022 02:57:56 PM ArduinoMsg: Received msg from arduino: msg: run
+08/22/2022 02:57:57 PM ArduinoMsg: Received msg from arduino: Run 0-1400.00
+08/22/2022 02:57:58 PM ArduinoMsg: Received msg from arduino: Run 1-1949.00
+08/22/2022 02:57:58 PM ArduinoMsg: Received msg from arduino: Run 2-1527.00
+08/22/2022 02:57:59 PM ArduinoMsg: Received msg from arduino: Run 3-1465.00
+08/22/2022 02:57:59 PM ArduinoMsg: Received msg from arduino: Run 4-2072.00
+08/22/2022 02:58:00 PM ArduinoMsg: Received msg from arduino: msg: run
+08/22/2022 02:58:00 PM ArduinoMsg: Received msg from arduino: Run 0-1400.00
+08/22/2022 02:58:01 PM ArduinoMsg: Received msg from arduino: Run 1-1790.00
+08/22/2022 02:58:02 PM ArduinoMsg: Received msg from arduino: Run 2-1527.00
+08/22/2022 02:58:02 PM ArduinoMsg: Received msg from arduino: Run 3-1465.00
+08/22/2022 02:58:03 PM ArduinoMsg: Received msg from arduino: Run 4-2072.00
+08/22/2022 02:58:03 PM ArduinoMsg: Received msg from arduino: msg: run
+08/22/2022 02:58:04 PM ArduinoMsg: Received msg from arduino: Run 0-1400.00
+08/22/2022 02:58:04 PM ArduinoMsg: Received msg from arduino: Run 1-1751.00
+08/22/2022 02:58:05 PM ArduinoMsg: Received msg from arduino: Run 2-1527.00
+08/22/2022 02:58:06 PM ArduinoMsg: Received msg from arduino: Run 3-1465.00
+08/22/2022 02:58:06 PM ArduinoMsg: Received msg from arduino: Run 4-2072.00
+08/22/2022 02:58:07 PM ArduinoMsg: Received msg from arduino: msg: ru<run
+08/22/2022 02:58:08 PM ArduinoMsg: Received msg from arduino: Error: Incorrect command: ru<run
+08/22/2022 02:58:55 PM SliderFrame: Slider number 1 is changing
+08/22/2022 02:58:55 PM RobotManager: Setting theta 68, ind 1
+08/22/2022 02:58:55 PM RobotManager: Sending current thetas [0, 68, 0, 0, 0]
+08/22/2022 02:58:55 PM KinematicsOps: Forware kinematics for thetas = [0, 68, 0, 0, 0]
+08/22/2022 02:58:55 PM ArmKinematics: Getting gripper pos None 
+08/22/2022 02:58:55 PM ArmKinematics: Calc forward kinematics of thetas [ 0 68  0  0  0  0] 
+08/22/2022 02:58:55 PM KinematicsOps: Estimated pos is [-50.53152  -0.       34.71606] 
+08/22/2022 02:58:55 PM RobotManager: Sending thetas [0, 68, 0, 0, 0] to arduino with respect to prev thetas [0, 64, 0, 0, 0]
+08/22/2022 02:58:55 PM KinematicsOps: Converting angle value: [  0 -68   0   0   0] to pwm value: [1400.       1750.502477 1527.       1465.       2072.      ]
+08/22/2022 02:58:55 PM ArduinoMsgOps: Send msg run:1400:1751:1527:1465:2072 to arduino
+08/22/2022 02:58:55 PM ArduinoMsg: Sent msg run:1400:1751:1527:1465:2072 to arduino
+08/22/2022 02:58:55 PM PlotTools: Show thetas T = [[ -0.92718  -0.37461  -0.      -50.53152]
+ [  0.       -0.       -1.       -0.     ]
+ [  0.37461  -0.92718   0.       34.71606]
+ [  0.        0.        0.        1.     ]]
+08/22/2022 02:58:56 PM ArduinoMsg: Received msg from arduino: msg: run
+08/22/2022 02:58:56 PM ArduinoMsg: Received msg from arduino: Run 0-1400.00
+08/22/2022 02:58:57 PM ArduinoMsg: Received msg from arduino: Run 1-1751.00
+08/22/2022 02:58:57 PM SliderFrame: Slider number 1 is changing
+08/22/2022 02:58:57 PM RobotManager: Setting theta 69, ind 1
+08/22/2022 02:58:57 PM RobotManager: Sending current thetas [0, 69, 0, 0, 0]
+08/22/2022 02:58:57 PM KinematicsOps: Forware kinematics for thetas = [0, 69, 0, 0, 0]
+08/22/2022 02:58:57 PM ArmKinematics: Getting gripper pos None 
+08/22/2022 02:58:57 PM ArmKinematics: Calc forward kinematics of thetas [ 0 69  0  0  0  0] 
+08/22/2022 02:58:57 PM KinematicsOps: Estimated pos is [-50.88013  -0.       33.83105] 
+08/22/2022 02:58:57 PM RobotManager: Sending thetas [0, 69, 0, 0, 0] to arduino with respect to prev thetas [0, 68, 0, 0, 0]
+08/22/2022 02:58:57 PM KinematicsOps: Converting angle value: [  0 -69   0   0   0] to pwm value: [1400.         1746.53927813 1527.         1465.         2072.        ]
+08/22/2022 02:58:57 PM ArduinoMsgOps: Send msg run:1400:1747:1527:1465:2072 to arduino
+08/22/2022 02:58:57 PM ArduinoMsg: Sent msg run:1400:1747:1527:1465:2072 to arduino
+08/22/2022 02:58:57 PM PlotTools: Show thetas T = [[ -0.93358  -0.35837  -0.      -50.88013]
+ [  0.       -0.       -1.       -0.     ]
+ [  0.35837  -0.93358   0.       33.83105]
+ [  0.        0.        0.        1.     ]]
+08/22/2022 02:58:57 PM ArduinoMsg: Received msg from arduino: Run 2-1527.00
+08/22/2022 02:58:58 PM ArduinoMsg: Received msg from arduino: Run 3-1465.00
+08/22/2022 02:58:59 PM ArduinoMsg: Received msg from arduino: Run 4-2072.00
+08/22/2022 02:58:59 PM ArduinoMsg: Received msg from arduino: msg: run
+08/22/2022 02:59:00 PM ArduinoMsg: Received msg from arduino: Run 0-1400.00
+08/22/2022 02:59:00 PM ArduinoMsg: Received msg from arduino: Run 1-1747.00
+08/22/2022 02:59:01 PM ArduinoMsg: Received msg from arduino: Run 2-1527.00
+08/22/2022 02:59:01 PM ArduinoMsg: Received msg from arduino: Run 3-1465.00
+08/22/2022 02:59:02 PM ArduinoMsg: Received msg from arduino: Run 4-2072.00
+08/22/2022 02:59:10 PM SliderFrame: Slider number 1 is changing
+08/22/2022 02:59:10 PM RobotManager: Setting theta 71, ind 1
+08/22/2022 02:59:10 PM RobotManager: Sending current thetas [0, 71, 0, 0, 0]
+08/22/2022 02:59:10 PM KinematicsOps: Forware kinematics for thetas = [0, 71, 0, 0, 0]
+08/22/2022 02:59:10 PM ArmKinematics: Getting gripper pos None 
+08/22/2022 02:59:10 PM ArmKinematics: Calc forward kinematics of thetas [ 0 71  0  0  0  0] 
+08/22/2022 02:59:10 PM KinematicsOps: Estimated pos is [-51.53076  -0.       32.04346] 
+08/22/2022 02:59:10 PM RobotManager: Sending thetas [0, 71, 0, 0, 0] to arduino with respect to prev thetas [0, 69, 0, 0, 0]
+08/22/2022 02:59:10 PM KinematicsOps: Converting angle value: [  0 -71   0   0   0] to pwm value: [1400.        1738.6128804 1527.        1465.        2072.       ]
+08/22/2022 02:59:10 PM ArduinoMsgOps: Send msg run:1400:1739:1527:1465:2072 to arduino
+08/22/2022 02:59:10 PM ArduinoMsg: Sent msg run:1400:1739:1527:1465:2072 to arduino
+08/22/2022 02:59:10 PM PlotTools: Show thetas T = [[ -0.94552  -0.32557   0.      -51.53076]
+ [  0.       -0.       -1.       -0.     ]
+ [  0.32557  -0.94552   0.       32.04346]
+ [  0.        0.        0.        1.     ]]
+08/22/2022 02:59:10 PM SliderFrame: Slider number 1 is changing
+08/22/2022 02:59:10 PM RobotManager: Setting theta 104, ind 1
+08/22/2022 02:59:10 PM SliderFrame: Slider number 1 is changing
+08/22/2022 02:59:10 PM RobotManager: Setting theta 114, ind 1
+08/22/2022 02:59:10 PM SliderFrame: Slider number 1 is changing
+08/22/2022 02:59:10 PM RobotManager: Setting theta 124, ind 1
+08/22/2022 02:59:10 PM SliderFrame: Slider number 1 is changing
+08/22/2022 02:59:10 PM RobotManager: Setting theta 131, ind 1
+08/22/2022 02:59:10 PM RobotManager: Sending current thetas [0, 131, 0, 0, 0]
+08/22/2022 02:59:10 PM KinematicsOps: Forware kinematics for thetas = [0, 131, 0, 0, 0]
+08/22/2022 02:59:10 PM ArmKinematics: Getting gripper pos None 
+08/22/2022 02:59:10 PM ArmKinematics: Calc forward kinematics of thetas [  0 131   0   0   0   0] 
+08/22/2022 02:59:10 PM ArmKinematics: Collision at theta ind 1, z value is 4 [cm], z limit was set to 5 [cm]
+08/22/2022 02:59:10 PM ArmKinematics: Collision at theta ind 2, z value is 4 [cm], z limit was set to 5 [cm]
+08/22/2022 02:59:10 PM ArmKinematics: Collision at theta ind 3, z value is -8 [cm], z limit was set to 5 [cm]
+08/22/2022 02:59:10 PM ArmKinematics: Collision at theta ind 4, z value is -8 [cm], z limit was set to 5 [cm]
+08/22/2022 02:59:10 PM ArmKinematics: Collision at theta ind 5, z value is -21 [cm], z limit was set to 5 [cm]
+08/22/2022 02:59:10 PM KinematicsOps: Estimated pos is [-41.13167  -0.      -21.45522] 
+08/22/2022 02:59:10 PM RobotManager: Sending thetas [0, 131, 0, 0, 0] to arduino with respect to prev thetas [0, 71, 0, 0, 0]
+08/22/2022 02:59:10 PM KinematicsOps: Converting angle value: [   0 -131    0    0    0] to pwm value: [1400.         1500.82094834 1527.         1465.         2072.        ]
+08/22/2022 02:59:10 PM ArduinoMsgOps: Send msg run:1400:1501:1527:1465:2072 to arduino
+08/22/2022 02:59:10 PM ArduinoMsg: Sent msg run:1400:1501:1527:1465:2072 to arduino
+08/22/2022 02:59:10 PM PlotTools: Show thetas T = [[ -0.75471   0.65606   0.      -41.13167]
+ [ -0.       -0.       -1.       -0.     ]
+ [ -0.65606  -0.75471   0.      -21.45522]
+ [  0.        0.        0.        1.     ]]
+08/22/2022 02:59:11 PM ArduinoMsg: Received msg from arduino: msg: run
+08/22/2022 02:59:11 PM ArduinoMsg: Received msg from arduino: Run 0-1400.00
+08/22/2022 02:59:12 PM ArduinoMsg: Received msg from arduino: Run 1-1739.00
+08/22/2022 02:59:12 PM ArduinoMsg: Received msg from arduino: Run 2-1527.00
+08/22/2022 02:59:13 PM ArduinoMsg: Received msg from arduino: Run 3-1465.00
+08/22/2022 02:59:14 PM ArduinoMsg: Received msg from arduino: Run 4-2072.00
+08/22/2022 02:59:14 PM ArduinoMsg: Received msg from arduino: msg: run
+08/22/2022 02:59:15 PM ArduinoMsg: Received msg from arduino: Run 0-1400.00
+08/22/2022 02:59:15 PM ArduinoMsg: Received msg from arduino: Run 1-1501.00
+08/22/2022 02:59:16 PM ArduinoMsg: Received msg from arduino: Run 2-1527.00
+08/22/2022 02:59:16 PM ArduinoMsg: Received msg from arduino: Run 3-1465.00
+08/22/2022 02:59:17 PM ArduinoMsg: Received msg from arduino: Run 4-2072.00

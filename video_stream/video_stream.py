@@ -2,10 +2,11 @@ import cv2 as cv
 import logging
 
 class VideoStream:
-    def __init__(self, camera_id, width_target=320):
+    def __init__(self, fps, camera_id, width_target=320):
         logging.info('VideoStream: Video is opening')
         self.width_target = width_target
         self.video = cv.VideoCapture(camera_id)
+        self.video.set(cv.CAP_PROP_FPS, fps)
 
         if not self.video.isOpened():
             logging.warning( 'VideoStream: Camera index %d is not available moving to port zero', camera_id)
